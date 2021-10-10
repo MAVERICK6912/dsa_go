@@ -23,7 +23,7 @@ func findLongestBand(input []int) int {
 	}
 	largestCount := 0
 	/*
-		 TIL: Iterating over a map is much faster than a slice.
+		 TIL: Iterating over a map is much faster than a slice in this case.
 		 In this case this is possible as:
 			When iterating over the slice then accessing the map, a larger block of memory will need to make its way back and forth between DRAM and the CPU cache than if you only use the map
 	*/
