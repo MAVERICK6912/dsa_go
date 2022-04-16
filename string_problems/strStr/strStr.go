@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 /*
 Problem: Given two strings needle and haystack, return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
 For the purpose of this problem, we will return 0 when needle is an empty string. This is consistent to C's strstr() and Java's indexOf().
@@ -16,7 +18,7 @@ Approach:
 */
 
 func main() {
-
+	fmt.Println(strStr("hello", "ll"))
 }
 
 func strStr(haystack, needle string) int {
