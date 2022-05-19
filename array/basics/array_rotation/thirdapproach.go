@@ -17,3 +17,5 @@ package main
 func main() {
 
 }
+
+// func reversalAlgo()
