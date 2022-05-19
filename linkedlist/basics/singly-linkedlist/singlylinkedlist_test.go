@@ -1,8 +1,10 @@
 package linkedlist
 
-import "testing"
+import (
+	"testing"
+)
 
-func TestListInsert(t *testing.T) {
+func TestListAdd(t *testing.T) {
 
 	values := []int{23, 56, 14, 2656, 48, 62, 68}
 
@@ -17,5 +19,29 @@ func TestListInsert(t *testing.T) {
 	}
 	if actual := linkedlist.Get(3); actual != 2656 {
 		t.Errorf("Got %v expected %v", actual, 2656)
+	}
+}
+
+func TestLinkedListInsert(t *testing.T) {
+	values := []int{23, 56, 14, 2656, 48, 62, 68}
+
+	var linkedlist SinglyLinkedList
+	linkedlist.Add(values...)
+
+	linkedlist.Insert(2, 0)
+	if actual := linkedlist.Get(2); actual != 0 {
+		t.Errorf("Got %v expected %v", actual, 0)
+	}
+	if actual := linkedlist.Size(); actual != 8 {
+		t.Errorf("Got %v expected %v", actual, 8)
+	}
+
+	linkedlist.Insert(0, 69)
+
+	if actual := linkedlist.Get(0); actual != 69 {
+		t.Errorf("Got %v expected %v", actual, 69)
+	}
+	if actual := linkedlist.Size(); actual != 9 {
+		t.Errorf("Got %v expected %v", actual, 9)
 	}
 }

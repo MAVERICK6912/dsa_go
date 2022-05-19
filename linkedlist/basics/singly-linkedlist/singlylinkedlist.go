@@ -48,6 +48,50 @@ func (s *SinglyLinkedList) Get(index int) int {
 	return node.data
 }
 
+/*
+	n1->n2->n3->n4->n5
+	index= 2, nN
+	n1->n2->nN->n3->n4->n5
+	previousNode= n2
+	n2.Next=nN
+	nN.Next=n3
+	n3.Next=n4
+	n4.Next=n5
+
+	findPreviousNode:
+		for i:=0; i<index;i,node=i+1,node.next
+	We will get previous node in node
+	nN.next=previous.next
+	previous.next=nN
+*/
+
+// Insert a node with given value at given index of linkedList
+func (s *SinglyLinkedList) Insert(index, value int) {
+	if !s.isWithinRange(index) {
+		return
+	}
+	if index == s.Size() {
+		s.Add(value)
+		return
+	}
+	newNode := Node{
+		data: value,
+	}
+	node := s.first
+	var previousNode *Node
+	for i := 0; i != index; i, node = i+1, node.next {
+		previousNode = node
+	}
+	if node == s.first {
+		newNode.next = node
+		s.first = &newNode
+	} else {
+		newNode.next = previousNode.next
+		previousNode.next = &newNode
+	}
+	s.size += 1
+}
+
 // String implements stringer interface.
 func (s *SinglyLinkedList) String() string {
 	var strArr []string
