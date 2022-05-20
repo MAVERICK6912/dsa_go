@@ -10,6 +10,17 @@ package main
  * func (this *MountainArray) length() int {}
  */
 
+type MountainArray struct {
+}
+
+func (m *MountainArray) length() int {
+	return 0
+}
+
+func (m *MountainArray) get(index int) int {
+	return 0
+}
+
 func findInMountainArray(target int, mountainArr *MountainArray) int {
 	peakIndex := findPeakElementsIndex(mountainArr)
 
