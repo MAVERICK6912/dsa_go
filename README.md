@@ -1,4 +1,5 @@
 [![Go](https://github.com/MAVERICK6912/dsa_go/actions/workflows/go.yml/badge.svg?branch=main)](https://github.com/MAVERICK6912/dsa_go/actions/workflows/go.yml)
+[![CodeQL](https://github.com/MAVERICK6912/dsa_go/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/MAVERICK6912/dsa_go/actions/workflows/codeql.yml)
 ## TOC
 - [dsa_go](#dsa_go)
 - [Topics Covered](#topics-covered)
