@@ -45,10 +45,15 @@ func (s *SinglyLinkedList) Get(index int) int {
 	node := s.first
 	for i := 0; i != index; i, node = i+1, node.next {
 	}
+	// checking if list is empty
+	if s.first == nil && s.last == nil {
+		return -1
+	}
 	return node.data
 }
 
 /*
+	Approach for insert:
 	n1->n2->n3->n4->n5
 	index= 2, nN
 	n1->n2->nN->n3->n4->n5
@@ -90,6 +95,104 @@ func (s *SinglyLinkedList) Insert(index, value int) {
 		previousNode.next = &newNode
 	}
 	s.size += 1
+}
+
+/*
+	Approach for remove:
+	n1->n2->n3->n4->n5
+		Remove(n3)
+		n1->n2->n4->n5
+		currentNode=n3
+		previousNode= n2
+		n2.Next=n3.next
+
+		findPreviousNode:
+			for i:=0; i<index;i,node=i+1,node.next
+		We will get previous node in node
+		previousNode.next=currentNode.next
+
+		currentNode=nil
+*/
+
+// Remove a node with given value `val`
+func (s *SinglyLinkedList) Remove(val int) {
+	node := s.first
+	var previousNode *Node
+	for i := 0; node != nil; i, node = i+1, node.next {
+		if node.data == val {
+			break
+		}
+		previousNode = node
+	}
+	// this means val was not found in any node
+	if node == nil {
+		return
+	}
+	if node == s.first {
+		if s.Size() == 1 {
+			s.Clear()
+			return
+		}
+		s.first = node.next
+	}
+	if node == s.last {
+		s.last = previousNode
+	}
+	if previousNode != nil {
+		previousNode.next = node.next
+	}
+	node = nil
+	s.size -= 1
+}
+
+/*
+	Approach for delete:
+	n1->n2->n3->n4->n5
+		Delete(index: 2)
+		n1->n2->n4->n5
+		currentNode=n3
+		previousNode= n2
+		n2.Next=n3.next
+
+		findPreviousNode:
+			for i:=0; i<index;i,node=i+1,node.next
+		We will get previous node in node
+		previousNode.next=currentNode.next
+
+		currentNode=nil
+*/
+
+func (s *SinglyLinkedList) Delete(index int) {
+	if !s.isWithinRange(index) {
+		return
+	}
+	node := s.first
+	var previousNode *Node
+	for i := 0; i != index; i, node = i+1, node.next {
+		previousNode = node
+	}
+	if node == s.first {
+		if s.size == 1 {
+			s.Clear()
+			return
+		}
+		s.first = node.next
+	}
+	if node == s.last {
+		s.last = previousNode
+	}
+	if previousNode != nil {
+		previousNode.next = node.next
+	}
+	node = nil
+	s.size -= 1
+}
+
+// Clear the linkedlist, remove all links.
+func (s *SinglyLinkedList) Clear() {
+	s.first = nil
+	s.last = nil
+	s.size = 0
 }
 
 // String implements stringer interface.
