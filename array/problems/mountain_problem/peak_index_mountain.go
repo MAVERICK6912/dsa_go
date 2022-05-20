@@ -7,9 +7,9 @@ package main
 
 // problem link: https://leetcode.com/problems/peak-index-in-a-mountain-array/
 
-func main() {
-	// put input code or hard code input
-}
+// func main() {
+// 	// put input code or hard code input
+// }
 
 func peakIndexInMountainArray(arr []int) int {
 	if len(arr) < 3 {

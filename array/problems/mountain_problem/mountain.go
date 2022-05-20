@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"math"
 )
 
@@ -14,9 +13,9 @@ import (
 2. then iterate back to count left slope.
 3. since while finding peaks we're already moving forward so we can count right slope in that pass.
 */
-func main() {
-	fmt.Println(highestMountain([]int{5, 6, 1, 2, 3, 4, 5, 4, 3, 2, 0, 1, 2, 3, -2, 4}))
-}
+// func main() {
+// 	fmt.Println(highestMountain([]int{5, 6, 1, 2, 3, 4, 5, 4, 3, 2, 0, 1, 2, 3, -2, 4}))
+// }
 
 func highestMountain(input []int) int {
 	largest := 0
