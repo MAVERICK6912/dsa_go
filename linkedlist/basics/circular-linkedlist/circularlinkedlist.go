@@ -3,6 +3,8 @@ package linkedlist
 import (
 	"fmt"
 	"strings"
+
+	"github.com/maverick6912/dsa_go/utils"
 )
 
 type Node struct {
@@ -33,6 +35,38 @@ func (c *CircularLinkedList) Add(n ...int) {
 	}
 }
 
+func (c *CircularLinkedList) Insert(index, val int) {
+	if !c.isWithinRange(index) {
+		return
+	}
+	newNode := &Node{data: val}
+	// insertion at starting
+	if index == 0 {
+		newNode.next = c.first
+		c.first = newNode
+		c.last.next = c.first
+		c.size += 1
+		return
+	}
+	// insertion at last
+	if index == c.Size() {
+		c.last.next = newNode
+		c.last = newNode
+		c.last.next = c.first
+		c.size += 1
+		return
+	}
+
+	node := c.first
+	var previousNode *Node
+	for i := 0; i != index; i, node = i+1, node.next {
+		previousNode = node
+	}
+	newNode.next = previousNode.next
+	previousNode.next = newNode
+	c.size += 1
+}
+
 // Get element at given index.
 // Will return -1 if index is out of range or if linkedList is empty.
 func (c *CircularLinkedList) Get(index int) int {
@@ -47,6 +81,35 @@ func (c *CircularLinkedList) Get(index int) int {
 	for i := 0; i != index; i, node = i+1, node.next {
 	}
 	return node.data
+}
+
+// Sort a linkedList in ascending order.
+func (c *CircularLinkedList) Sort() {
+	if c.Size() < 2 {
+		return
+	}
+	elems := c.Values()
+	utils.Sort(elems, utils.IntComparator)
+	c.Clear()
+	c.Add(elems...)
+}
+
+// Values returns all the values in a linkedList as a []int.
+func (c *CircularLinkedList) Values() []int {
+	var tArr []int
+	for node := c.first; node != c.last; node = node.next {
+		tArr = append(tArr, node.data)
+	}
+	tArr = append(tArr, c.last.data)
+
+	return tArr
+}
+
+// Clear the linkedlist, remove all links.
+func (c *CircularLinkedList) Clear() {
+	c.first = nil
+	c.last = nil
+	c.size = 0
 }
 
 // isWithinRange checks if the index is within range of linkedList.

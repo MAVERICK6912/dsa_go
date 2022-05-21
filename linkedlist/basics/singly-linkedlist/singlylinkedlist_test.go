@@ -1,7 +1,10 @@
 package linkedlist
 
 import (
+	"sort"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestListAdd(t *testing.T) {
@@ -134,4 +137,15 @@ func TestLinkedListDelete(t *testing.T) {
 	if actual := linkedlist.Size(); actual != 0 {
 		t.Errorf("Got %v expected %v", actual, 0)
 	}
+}
+
+func TestCircularLinkedListSort(t *testing.T) {
+	values := []int{25, 46, 32, 15, 14, 69, 47, 536}
+	var linkedList SinglyLinkedList
+	linkedList.Add(values...)
+
+	sort.Ints(values)
+	linkedList.Sort()
+
+	assert.Equal(t, values, linkedList.Values())
 }
