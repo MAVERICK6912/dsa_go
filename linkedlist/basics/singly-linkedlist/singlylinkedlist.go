@@ -3,6 +3,8 @@ package linkedlist
 import (
 	"fmt"
 	"strings"
+
+	utils "github.com/maverick6912/dsa_go/utils"
 )
 
 type Node struct {
@@ -70,7 +72,8 @@ func (s *SinglyLinkedList) Get(index int) int {
 	previous.next=nN
 */
 
-// Insert a node with given value at given index of linkedList
+// Insert a node with given value at given index of linkedList.
+// Does nothing if index is out of bounds of linkedList.
 func (s *SinglyLinkedList) Insert(index, value int) {
 	if !s.isWithinRange(index) {
 		return
@@ -115,6 +118,7 @@ func (s *SinglyLinkedList) Insert(index, value int) {
 */
 
 // Remove a node with given value `val`
+// Does nothing if val doesn't exist in linkedlist or if linkedlist is empty
 func (s *SinglyLinkedList) Remove(val int) {
 	node := s.first
 	var previousNode *Node
@@ -162,6 +166,8 @@ func (s *SinglyLinkedList) Remove(val int) {
 		currentNode=nil
 */
 
+// Delete a node at given index.
+// Does nothing if index is not within range of linkedlist or if linkedlist is empty
 func (s *SinglyLinkedList) Delete(index int) {
 	if !s.isWithinRange(index) {
 		return
@@ -186,6 +192,26 @@ func (s *SinglyLinkedList) Delete(index int) {
 	}
 	node = nil
 	s.size -= 1
+}
+
+// Sort a linkedList in ascending order.
+func (s *SinglyLinkedList) Sort() {
+	if s.Size() < 2 {
+		return
+	}
+	elems := s.Values()
+	utils.Sort(elems, utils.IntComparator)
+	s.Clear()
+	s.Add(elems...)
+}
+
+// Values returns all the values in a linkedList as a []int.
+func (s *SinglyLinkedList) Values() []int {
+	var tArr []int
+	for node := s.first; node != nil; node = node.next {
+		tArr = append(tArr, node.data)
+	}
+	return tArr
 }
 
 // Clear the linkedlist, remove all links.
