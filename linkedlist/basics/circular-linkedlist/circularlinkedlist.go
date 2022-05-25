@@ -83,6 +83,63 @@ func (c *CircularLinkedList) Get(index int) int {
 	return node.data
 }
 
+// Remove a node with given value `val`.
+// Does nothing if val doesn't exist in linkedlist or if linkedlist is empty.
+func (c *CircularLinkedList) Remove(val int) {
+	if c.first == nil && c.last == nil {
+		return
+	}
+
+	node := c.first
+	var previousNode *Node
+
+	for ; node.data != val && node != c.last; node = node.next {
+		previousNode = node
+	}
+
+	if node == c.first {
+		c.first = node.next
+		c.last.next = c.first
+		node = nil
+	} else if node == c.last {
+		previousNode.next = c.first
+		c.last = previousNode
+		node = nil
+	} else {
+		previousNode.next = node.next
+		node = nil
+	}
+	c.size -= 1
+}
+
+func (c *CircularLinkedList) Delete(index int) {
+	if !c.isWithinRange(index) {
+		return
+	}
+	if c.first == nil && c.last == nil {
+		return
+	}
+	node := c.first
+	var previousNode *Node
+
+	for i := 0; i != index && node != c.last; i, node = i+1, node.next {
+		previousNode = node
+	}
+	if node == c.first {
+		c.first = node.next
+		c.last.next = c.first
+		node = nil
+	} else if node == c.last {
+		c.last = previousNode
+		c.last.next = c.first
+		node = nil
+	} else {
+		previousNode.next = node.next
+		node = nil
+	}
+	c.size -= 1
+}
+
 // Sort a linkedList in ascending order.
 func (c *CircularLinkedList) Sort() {
 	if c.Size() < 2 {

@@ -88,3 +88,59 @@ func TestCircularLinkedListSort(t *testing.T) {
 
 	assert.Equal(t, values, cirLinkedList.Values())
 }
+
+func TestCircularLinkedListRemove(t *testing.T) {
+	values := []int{25, 46, 32, 15, 14, 69, 47, 536}
+	var cirLinkedList CircularLinkedList
+	cirLinkedList.Add(values...)
+
+	// removing randomly
+	cirLinkedList.Remove(32)
+	assert.NotEqual(t, values[2], cirLinkedList.Get(2))
+	assert.Equal(t, values[3], cirLinkedList.Get(2))
+	assert.Equal(t, len(values)-1, cirLinkedList.Size())
+
+	// removing head node
+	cirLinkedList.Remove(25)
+	assert.NotEqual(t, values[0], cirLinkedList.Get(0))
+	assert.Equal(t, values[1], cirLinkedList.Get(0))
+	assert.Equal(t, len(values)-2, cirLinkedList.Size())
+
+	// removing last node
+	cirLinkedList.Remove(536)
+	assert.NotEqual(t, values[len(values)-4], cirLinkedList.last.data)
+	assert.Equal(t, values[len(values)-2], cirLinkedList.last.data)
+	assert.Equal(t, len(values)-3, cirLinkedList.Size())
+
+	// removing a node not in linkedList
+	cirLinkedList.Remove(488)
+	assert.Equal(t, len(values)-4, cirLinkedList.Size())
+}
+
+func TestCircularLinkedListDelete(t *testing.T) {
+	values := []int{25, 46, 32, 15, 14, 69, 47, 536}
+	var cirLinkedList CircularLinkedList
+	cirLinkedList.Add(values...)
+
+	// deleting randomly
+	cirLinkedList.Delete(2)
+	assert.NotEqual(t, values[2], cirLinkedList.Get(2))
+	assert.Equal(t, values[3], cirLinkedList.Get(2))
+	assert.Equal(t, len(values)-1, cirLinkedList.Size())
+
+	// deleting head node
+	cirLinkedList.Delete(0)
+	assert.NotEqual(t, values[0], cirLinkedList.Get(0))
+	assert.Equal(t, values[1], cirLinkedList.Get(0))
+	assert.Equal(t, len(values)-2, cirLinkedList.Size())
+
+	// deleting last node
+	cirLinkedList.Delete(len(values) - 3)
+	assert.NotEqual(t, values[len(values)-4], cirLinkedList.last.data)
+	assert.Equal(t, values[len(values)-2], cirLinkedList.last.data)
+	assert.Equal(t, len(values)-3, cirLinkedList.Size())
+
+	// deleting a node not in linkedList
+	cirLinkedList.Delete(488)
+	assert.Equal(t, len(values)-3, cirLinkedList.Size())
+}
