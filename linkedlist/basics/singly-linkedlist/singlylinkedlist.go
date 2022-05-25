@@ -72,7 +72,8 @@ func (s *SinglyLinkedList) Get(index int) int {
 	previous.next=nN
 */
 
-// Insert a node with given value at given index of linkedList
+// Insert a node with given value at given index of linkedList.
+// Does nothing if index is out of bounds of linkedList.
 func (s *SinglyLinkedList) Insert(index, value int) {
 	if !s.isWithinRange(index) {
 		return
