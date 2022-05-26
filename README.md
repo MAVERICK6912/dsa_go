@@ -16,6 +16,7 @@ Problem statememnt and solution to problems are described in comments above the 
 - [Array/Slice](./array/)
 - [String](./string/)
 - [LinkedLists](./linkedlist/)
+- [Stack](./stack/)
 
 
 > I'll add more problem solutions in coming days. Cheers!
