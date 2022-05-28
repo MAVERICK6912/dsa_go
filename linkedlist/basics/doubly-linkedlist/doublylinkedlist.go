@@ -19,6 +19,10 @@ type DoublyLinkedList struct {
 	size  int
 }
 
+func New() *DoublyLinkedList {
+	return &DoublyLinkedList{}
+}
+
 // Add nodes to end of linkedList
 func (d *DoublyLinkedList) Add(vals ...int) {
 	for _, val := range vals {
