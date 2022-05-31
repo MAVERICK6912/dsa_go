@@ -10,6 +10,10 @@ type Stack struct {
 	size int
 }
 
+func New() *Stack {
+	return &Stack{list: make([]int, 0)}
+}
+
 // Add elements to top of stack
 func (s *Stack) Add(val ...int) {
 	for _, v := range val {
@@ -18,15 +22,23 @@ func (s *Stack) Add(val ...int) {
 	}
 }
 
-// Push adds given element to top of stack
+// Push adds given element to top of stack.
+// Does nothing if stack is un-initialized.
 func (s *Stack) Push(val int) {
+	if s == nil {
+		return
+	}
 	s.list = append(s.list, val)
 	s.size += 1
 }
 
-// Pop returns and deletes the element on top of stack
+// Pop returns and deletes the element on top of stack.
+// If stack is empty or un-initialized returns -1
 func (s *Stack) Pop() int {
-	if s.Size() == 0 {
+	if s == nil {
+		return -1
+	}
+	if s.Size() == 0 || s.list == nil {
 		return -1
 	}
 	elem := s.list[len(s.list)-1]

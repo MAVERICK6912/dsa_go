@@ -17,6 +17,6 @@ Problem statememnt and solution to problems are described in comments above the 
 - [String](./string/)
 - [LinkedLists](./linkedlist/)
 - [Stack](./stack/)
-
+- [Queue](./queue/)
 
 > I'll add more problem solutions in coming days. Cheers!
