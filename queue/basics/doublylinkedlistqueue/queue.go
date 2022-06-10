@@ -2,17 +2,19 @@ package queue
 
 import linkedlist "github.com/maverick6912/dsa_go/linkedlist/basics/doubly-linkedlist"
 
-// TODO: add queue based on dll.
+// TODO: convert this queue to use generics
 
 type DllQueue struct {
-	elements  *linkedlist.DoublyLinkedList
+	elements  *linkedlist.DoublyLinkedList[int]
 	cacheSize int
 }
 
 // New returns an initialized and empty Queue.
 // requires cacheSize, if not provided defaults to zero.
 func New(cacheSize int) *DllQueue {
-	return &DllQueue{elements: linkedlist.New(), cacheSize: cacheSize}
+	var dll *linkedlist.DoublyLinkedList[int]
+	dll = dll.New(linkedlist.CompareDLLInt)
+	return &DllQueue{elements: dll, cacheSize: cacheSize}
 }
 
 // Enqueue adds given value to end of Queue.
@@ -37,7 +39,8 @@ func (d *DllQueue) Dequeue() int {
 		return -1
 	}
 	defer d.elements.Delete(0)
-	return d.elements.Get(0)
+	val, _ := d.elements.Get(0)
+	return val
 }
 
 // Peek returns the first element in the Queue.
@@ -49,7 +52,8 @@ func (d *DllQueue) Peek() int {
 	if d.elements.Size() == 0 || d.elements == nil {
 		return -1
 	}
-	return d.elements.Get(0)
+	val, _ := d.elements.Get(0)
+	return val
 }
 
 // Clear the queue.
