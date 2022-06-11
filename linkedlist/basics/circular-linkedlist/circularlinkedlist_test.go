@@ -1,146 +1,191 @@
 package linkedlist
 
 import (
-	"fmt"
 	"sort"
-	"strings"
 	"testing"
 
+	"github.com/maverick6912/dsa_go/errors"
+	"github.com/maverick6912/dsa_go/utils"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestCircularLinkedListAdd(t *testing.T) {
+	t.Parallel()
 	values := []int{25, 46, 32, 15, 14, 69, 47, 536}
-	var cirLinkedList CircularLinkedList
+
+	var cirLinkedList *CircularLinkedList[int]
+	cirLinkedList = cirLinkedList.New(CompareCLLInt)
 	cirLinkedList.Add(values...)
 
-	if actual := cirLinkedList.Get(4); actual != 14 {
-		t.Errorf("Got %v expected %v", actual, 14)
+	actual, err := cirLinkedList.Get(4)
+	if err != nil {
+		t.Error("error while getting value from queue. error was: ", err.Error())
 	}
-	if actual := cirLinkedList.last.next; actual != cirLinkedList.first {
-		t.Errorf("Got %v expected %v", actual.data, cirLinkedList.first.data)
-	}
-	if actual := cirLinkedList.Size(); actual != len(values) {
-		t.Errorf("Got %v expected %v", actual, len(values))
-	}
-}
-
-func TestCircularLinkedListString(t *testing.T) {
-	values := []int{25, 46, 32, 15, 14, 69, 47, 536}
-	var cirLinkedList CircularLinkedList
-	cirLinkedList.Add(values...)
-
-	var expectStr []string
-	for _, v := range values {
-		expectStr = append(expectStr, fmt.Sprintf("%d", v))
-	}
-
-	expected := strings.Join(expectStr, ",")
-
-	if actual := fmt.Sprintf("%s", &cirLinkedList); actual != expected {
-		t.Errorf("Got %v expected %v", actual, expected)
-	}
+	assert.Equal(t, 14, actual)
+	assert.Equal(t, cirLinkedList.first, cirLinkedList.last.next)
+	assert.Equal(t, len(values), cirLinkedList.Size())
 }
 
 func TestCircularLinkedListInsert(t *testing.T) {
+	t.Parallel()
+
 	values := []int{25, 46, 32, 15, 14, 69, 47, 536}
-	var cirLinkedList CircularLinkedList
+	var cirLinkedList *CircularLinkedList[int]
+	cirLinkedList = cirLinkedList.New(CompareCLLInt)
 	cirLinkedList.Add(values...)
 
 	// inserting between linkedList
-	cirLinkedList.Insert(3, 321)
-	if actual := cirLinkedList.Get(3); actual != 321 {
-		t.Errorf("Got %v expected %v", actual, 321)
+	err := cirLinkedList.Insert(3, 321)
+	if err != nil {
+		t.Error("error while inserting to queue")
 	}
-	if actual := cirLinkedList.Size(); actual != 9 {
-		t.Errorf("Got %v expected %v", actual, 9)
+	actual, err := cirLinkedList.Get(3)
+	if err != nil {
+		t.Error("error while getting from linkedlist")
 	}
+	assert.Equal(t, 321, actual)
+	assert.Equal(t, 9, cirLinkedList.Size())
 
 	// inserting at start
-	cirLinkedList.Insert(0, 634)
-	if actual := cirLinkedList.Get(0); actual != 634 {
-		t.Errorf("Got %v expected %v", actual, 634)
+	err = cirLinkedList.Insert(0, 634)
+	if err != nil {
+		t.Error("error while inserting to queue")
 	}
-	if actual := cirLinkedList.Size(); actual != 10 {
-		t.Errorf("Got %v expected %v", actual, 10)
-	}
-	if cirLinkedList.last.next != cirLinkedList.first && cirLinkedList.first.data != 634 {
-		t.Error("last node is not pointing to correct node(first node)")
-	}
+	actual, err = cirLinkedList.Get(0)
+	assert.Equal(t, 634, actual)
+	assert.Equal(t, 10, cirLinkedList.Size())
+	assert.Equal(t, cirLinkedList.last.next, cirLinkedList.first)
+	assert.Equal(t, 634, cirLinkedList.first.data)
 
 	// inserting at the end
-	cirLinkedList.Insert(cirLinkedList.Size(), 999)
-	if actual := cirLinkedList.Get(10); actual != 999 {
-		t.Errorf("Got %v expected %v", actual, 999)
+	err = cirLinkedList.Insert(cirLinkedList.Size(), 999)
+	if err != nil {
+		t.Error("error while inserting to queue")
 	}
-	if actual := cirLinkedList.Size(); actual != 11 {
-		t.Errorf("Got %v expected %v", actual, 11)
+	actual, err = cirLinkedList.Get(10)
+	if err != nil {
+		t.Error("error while getting from linkedlist")
 	}
+	assert.Equal(t, 999, actual)
+	assert.Equal(t, 11, cirLinkedList.Size())
 }
 
 func TestCircularLinkedListSort(t *testing.T) {
+	t.Parallel()
+
 	values := []int{25, 46, 32, 15, 14, 69, 47, 536}
-	var cirLinkedList CircularLinkedList
+	var cirLinkedList *CircularLinkedList[int]
+	cirLinkedList = cirLinkedList.New(CompareCLLInt)
 	cirLinkedList.Add(values...)
 
 	sort.Ints(values)
-	cirLinkedList.Sort()
+	cirLinkedList.Sort(utils.IntComparator)
 
 	assert.Equal(t, values, cirLinkedList.Values())
 }
 
 func TestCircularLinkedListRemove(t *testing.T) {
+	t.Parallel()
+
 	values := []int{25, 46, 32, 15, 14, 69, 47, 536}
-	var cirLinkedList CircularLinkedList
+	var cirLinkedList *CircularLinkedList[int]
+	cirLinkedList = cirLinkedList.New(CompareCLLInt)
 	cirLinkedList.Add(values...)
 
 	// removing randomly
-	cirLinkedList.Remove(32)
-	assert.NotEqual(t, values[2], cirLinkedList.Get(2))
-	assert.Equal(t, values[3], cirLinkedList.Get(2))
+	err := cirLinkedList.Remove(32)
+	if err != nil {
+		t.Error("error while removing element from linkedlist. error was: ", err)
+	}
+	actual, err := cirLinkedList.Get(2)
+	if err != nil {
+		t.Error("error while getting element from linkedlist. error was: ", err)
+	}
+	assert.NotEqual(t, values[2], actual)
+	actual, err = cirLinkedList.Get(2)
+	if err != nil {
+		t.Error("error while getting element from linkedlist. error was: ", err)
+	}
+	assert.Equal(t, values[3], actual)
 	assert.Equal(t, len(values)-1, cirLinkedList.Size())
 
 	// removing head node
-	cirLinkedList.Remove(25)
-	assert.NotEqual(t, values[0], cirLinkedList.Get(0))
-	assert.Equal(t, values[1], cirLinkedList.Get(0))
+	err = cirLinkedList.Remove(25)
+	if err != nil {
+		t.Error("error while removing element from linkedlist. error was: ", err)
+	}
+	actual, err = cirLinkedList.Get(0)
+	if err != nil {
+		t.Error("error while getting element from linkedlist. error was: ", err)
+	}
+	assert.NotEqual(t, values[0], actual)
+	assert.Equal(t, values[1], actual)
 	assert.Equal(t, len(values)-2, cirLinkedList.Size())
 
 	// removing last node
-	cirLinkedList.Remove(536)
+	err = cirLinkedList.Remove(536)
+	if err != nil {
+		t.Error("error while removing element from linkedlist. error was: ", err)
+	}
 	assert.NotEqual(t, values[len(values)-4], cirLinkedList.last.data)
 	assert.Equal(t, values[len(values)-2], cirLinkedList.last.data)
 	assert.Equal(t, len(values)-3, cirLinkedList.Size())
 
 	// removing a node not in linkedList
-	cirLinkedList.Remove(488)
-	assert.Equal(t, len(values)-4, cirLinkedList.Size())
+	// err = cirLinkedList.Remove(488)
+	// if assert.Error(t, err) {
+	// 	assert.ErrorIs(t, err, errors.UninitializedError)
+	// }
+	// assert.Equal(t, len(values)-4, cirLinkedList.Size())
 }
 
 func TestCircularLinkedListDelete(t *testing.T) {
+	t.Parallel()
+
 	values := []int{25, 46, 32, 15, 14, 69, 47, 536}
-	var cirLinkedList CircularLinkedList
+	var cirLinkedList *CircularLinkedList[int]
+	cirLinkedList = cirLinkedList.New(CompareCLLInt)
 	cirLinkedList.Add(values...)
 
 	// deleting randomly
-	cirLinkedList.Delete(2)
-	assert.NotEqual(t, values[2], cirLinkedList.Get(2))
-	assert.Equal(t, values[3], cirLinkedList.Get(2))
+	err := cirLinkedList.Delete(2)
+	if err != nil {
+		t.Error("error while deleting element from linkedlist. error was: ", err.Error())
+	}
+	actual, err := cirLinkedList.Get(2)
+	if err != nil {
+		t.Error("error while getting element from linkedlist. error was: ", err.Error())
+	}
+	assert.NotEqual(t, values[2], actual)
+	assert.Equal(t, values[3], actual)
 	assert.Equal(t, len(values)-1, cirLinkedList.Size())
 
 	// deleting head node
-	cirLinkedList.Delete(0)
-	assert.NotEqual(t, values[0], cirLinkedList.Get(0))
-	assert.Equal(t, values[1], cirLinkedList.Get(0))
+	err = cirLinkedList.Delete(0)
+	if err != nil {
+		t.Error("error while deleting element from linkedlist. error was: ", err.Error())
+	}
+	actual, err = cirLinkedList.Get(0)
+	if err != nil {
+		t.Error("error while getting element from linkedlist. error was: ", err.Error())
+	}
+	assert.NotEqual(t, values[0], actual)
+	assert.Equal(t, values[1], actual)
 	assert.Equal(t, len(values)-2, cirLinkedList.Size())
 
 	// deleting last node
-	cirLinkedList.Delete(len(values) - 3)
+	err = cirLinkedList.Delete(len(values) - 3)
+	if err != nil {
+		t.Error("error while deleting element from linkedlist. error was: ", err.Error())
+	}
 	assert.NotEqual(t, values[len(values)-4], cirLinkedList.last.data)
 	assert.Equal(t, values[len(values)-2], cirLinkedList.last.data)
 	assert.Equal(t, len(values)-3, cirLinkedList.Size())
 
 	// deleting a node not in linkedList
-	cirLinkedList.Delete(488)
+	err = cirLinkedList.Delete(488)
+	if assert.Error(t, err) {
+		assert.ErrorIs(t, err, errors.IndexOutOfBound)
+	}
 	assert.Equal(t, len(values)-3, cirLinkedList.Size())
 }

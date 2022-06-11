@@ -246,17 +246,6 @@ func (s *SinglyLinkedList[T]) isWithinRange(index int) bool {
 	return index >= 0 && index <= s.size
 }
 
-// func (s *SinglyLinkedList[T]) GetSLLComparator() func(*SLLNode[T], *SLLNode[T]) int {
-
-// 	switch any(s).(type) {
-// 	case *SinglyLinkedList[int]:
-// 		return CompareSLLInt
-// 	case *SinglyLinkedList[string]:
-// 		return CompareSLLString[T]
-// 	}
-// 	return nil
-// }
-
 func CompareSLLInt(a, b *SLLNode[int]) int {
 	if a.data > b.data {
 		return 1
