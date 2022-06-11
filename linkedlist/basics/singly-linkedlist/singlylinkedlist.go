@@ -4,24 +4,30 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/maverick6912/dsa_go/errors"
 	utils "github.com/maverick6912/dsa_go/utils"
 )
 
-type Node struct {
-	data int
-	next *Node
+type SLLNode[T any] struct {
+	data T
+	next *SLLNode[T]
 }
 
-type SinglyLinkedList struct {
-	first *Node
-	last  *Node
+type SinglyLinkedList[T any] struct {
+	cmp   func(*SLLNode[T], *SLLNode[T]) int
+	first *SLLNode[T]
+	last  *SLLNode[T]
 	size  int
 }
 
+func (s *SinglyLinkedList[T]) New(cmp func(*SLLNode[T], *SLLNode[T]) int) *SinglyLinkedList[T] {
+	return &SinglyLinkedList[T]{cmp: cmp}
+}
+
 // Add values at the end of linkedList
-func (s *SinglyLinkedList) Add(n ...int) {
+func (s *SinglyLinkedList[T]) Add(n ...T) {
 	for _, v := range n {
-		node := &Node{data: v}
+		node := &SLLNode[T]{data: v}
 		if s.size == 0 {
 			s.first = node
 			s.last = node
@@ -34,24 +40,26 @@ func (s *SinglyLinkedList) Add(n ...int) {
 }
 
 // Get size of LinkedList
-func (s *SinglyLinkedList) Size() int {
+func (s *SinglyLinkedList[T]) Size() int {
 	return s.size
 }
 
 // Get value at index.
 // If index is out of range of linkedlist then function returns -1
-func (s *SinglyLinkedList) Get(index int) int {
+func (s *SinglyLinkedList[T]) Get(index int) (T, error) {
+	var ret T
 	if !s.isWithinRange(index) {
-		return -1
+		return ret, errors.IndexOutOfBound
 	}
 	node := s.first
 	for i := 0; i != index; i, node = i+1, node.next {
 	}
 	// checking if list is empty
 	if s.first == nil && s.last == nil {
-		return -1
+		return ret, errors.UninitializedError
 	}
-	return node.data
+	ret = node.data
+	return ret, nil
 }
 
 /*
@@ -74,19 +82,19 @@ func (s *SinglyLinkedList) Get(index int) int {
 
 // Insert a node with given value at given index of linkedList.
 // Does nothing if index is out of bounds of linkedList.
-func (s *SinglyLinkedList) Insert(index, value int) {
+func (s *SinglyLinkedList[T]) Insert(index int, value T) error {
 	if !s.isWithinRange(index) {
-		return
+		return errors.IndexOutOfBound
 	}
 	if index == s.Size() {
 		s.Add(value)
-		return
+		return nil
 	}
-	newNode := Node{
+	newNode := SLLNode[T]{
 		data: value,
 	}
 	node := s.first
-	var previousNode *Node
+	var previousNode *SLLNode[T]
 	for i := 0; i != index; i, node = i+1, node.next {
 		previousNode = node
 	}
@@ -98,6 +106,7 @@ func (s *SinglyLinkedList) Insert(index, value int) {
 		previousNode.next = &newNode
 	}
 	s.size += 1
+	return nil
 }
 
 /*
@@ -119,11 +128,12 @@ func (s *SinglyLinkedList) Insert(index, value int) {
 
 // Remove a node with given value `val`
 // Does nothing if val doesn't exist in linkedlist or if linkedlist is empty
-func (s *SinglyLinkedList) Remove(val int) {
+func (s *SinglyLinkedList[T]) Remove(val T) {
 	node := s.first
-	var previousNode *Node
+	var previousNode *SLLNode[T]
+	compNode := &SLLNode[T]{data: val}
 	for i := 0; node != nil; i, node = i+1, node.next {
-		if node.data == val {
+		if s.cmp(node, compNode) == 0 {
 			break
 		}
 		previousNode = node
@@ -168,19 +178,19 @@ func (s *SinglyLinkedList) Remove(val int) {
 
 // Delete a node at given index.
 // Does nothing if index is not within range of linkedlist or if linkedlist is empty
-func (s *SinglyLinkedList) Delete(index int) {
+func (s *SinglyLinkedList[T]) Delete(index int) error {
 	if !s.isWithinRange(index) {
-		return
+		return errors.IndexOutOfBound
 	}
 	node := s.first
-	var previousNode *Node
+	var previousNode *SLLNode[T]
 	for i := 0; i != index; i, node = i+1, node.next {
 		previousNode = node
 	}
 	if node == s.first {
 		if s.size == 1 {
 			s.Clear()
-			return
+			return nil
 		}
 		s.first = node.next
 	}
@@ -192,45 +202,63 @@ func (s *SinglyLinkedList) Delete(index int) {
 	}
 	node = nil
 	s.size -= 1
+	return nil
 }
 
 // Sort a linkedList in ascending order.
-func (s *SinglyLinkedList) Sort() {
+func (s *SinglyLinkedList[T]) Sort(cmp utils.Comparator[T]) {
 	if s.Size() < 2 {
 		return
 	}
 	elems := s.Values()
-	utils.Sort(elems, utils.IntComparator)
+	utils.Sort(elems, cmp)
 	s.Clear()
 	s.Add(elems...)
 }
 
-// Values returns all the values in a linkedList as a []int.
-func (s *SinglyLinkedList) Values() []int {
-	var tArr []int
+func (s *SinglyLinkedList[T]) Values() []T {
+	var ret []T
+
 	for node := s.first; node != nil; node = node.next {
-		tArr = append(tArr, node.data)
+		ret = append(ret, node.data)
 	}
-	return tArr
+	return ret
 }
 
 // Clear the linkedlist, remove all links.
-func (s *SinglyLinkedList) Clear() {
+func (s *SinglyLinkedList[T]) Clear() {
 	s.first = nil
 	s.last = nil
 	s.size = 0
 }
 
 // String implements stringer interface.
-func (s *SinglyLinkedList) String() string {
+func (s *SinglyLinkedList[T]) String() string {
 	var strArr []string
 	for node := s.first; node != nil; node = node.next {
-		strArr = append(strArr, fmt.Sprintf("%d", node.data))
+		strArr = append(strArr, fmt.Sprintf("%v", node.data))
 	}
 	return strings.Join(strArr, ",")
 }
 
 // isWithinRange checks if the index is within range of linkedList
-func (s *SinglyLinkedList) isWithinRange(index int) bool {
+func (s *SinglyLinkedList[T]) isWithinRange(index int) bool {
 	return index >= 0 && index <= s.size
+}
+
+func CompareSLLInt(a, b *SLLNode[int]) int {
+	if a.data > b.data {
+		return 1
+	} else if a.data < b.data {
+		return -1
+	}
+	return 0
+}
+func CompareSLLString(a, b *SLLNode[string]) int {
+	if a.data > b.data {
+		return 1
+	} else if a.data < b.data {
+		return -1
+	}
+	return 0
 }

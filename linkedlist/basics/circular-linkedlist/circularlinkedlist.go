@@ -4,24 +4,30 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/maverick6912/dsa_go/errors"
 	"github.com/maverick6912/dsa_go/utils"
 )
 
-type Node struct {
-	data int
-	next *Node
+type CLLNode[T any] struct {
+	data T
+	next *CLLNode[T]
 }
 
-type CircularLinkedList struct {
-	first *Node
-	last  *Node
+type CircularLinkedList[T any] struct {
+	cmp   func(*CLLNode[T], *CLLNode[T]) int
+	first *CLLNode[T]
+	last  *CLLNode[T]
 	size  int
 }
 
+func (c *CircularLinkedList[T]) New(cmp func(*CLLNode[T], *CLLNode[T]) int) *CircularLinkedList[T] {
+	return &CircularLinkedList[T]{cmp: cmp}
+}
+
 // Add nodes with given data at the end of linkedList.
-func (c *CircularLinkedList) Add(n ...int) {
+func (c *CircularLinkedList[T]) Add(n ...T) {
 	for _, val := range n {
-		node := &Node{data: val}
+		node := &CLLNode[T]{data: val}
 		if c.size == 0 {
 			c.first = node
 			c.last = node
@@ -35,18 +41,18 @@ func (c *CircularLinkedList) Add(n ...int) {
 	}
 }
 
-func (c *CircularLinkedList) Insert(index, val int) {
+func (c *CircularLinkedList[T]) Insert(index int, val T) error {
 	if !c.isWithinRange(index) {
-		return
+		return errors.IndexOutOfBound
 	}
-	newNode := &Node{data: val}
+	newNode := &CLLNode[T]{data: val}
 	// insertion at starting
 	if index == 0 {
 		newNode.next = c.first
 		c.first = newNode
 		c.last.next = c.first
 		c.size += 1
-		return
+		return nil
 	}
 	// insertion at last
 	if index == c.Size() {
@@ -54,46 +60,48 @@ func (c *CircularLinkedList) Insert(index, val int) {
 		c.last = newNode
 		c.last.next = c.first
 		c.size += 1
-		return
+		return nil
 	}
 
 	node := c.first
-	var previousNode *Node
+	var previousNode *CLLNode[T]
 	for i := 0; i != index; i, node = i+1, node.next {
 		previousNode = node
 	}
 	newNode.next = previousNode.next
 	previousNode.next = newNode
 	c.size += 1
+	return nil
 }
 
 // Get element at given index.
 // Will return -1 if index is out of range or if linkedList is empty.
-func (c *CircularLinkedList) Get(index int) int {
+func (c *CircularLinkedList[T]) Get(index int) (T, error) {
+	var ret T
 	if !c.isWithinRange(index) {
-		return -1
+		return ret, errors.IndexOutOfBound
 	}
 	// check if list is empty
 	if c.first == nil && c.last == nil {
-		return -1
+		return ret, errors.UninitializedError
 	}
 	node := c.first
 	for i := 0; i != index; i, node = i+1, node.next {
 	}
-	return node.data
+	return node.data, nil
 }
 
 // Remove a node with given value `val`.
 // Does nothing if val doesn't exist in linkedlist or if linkedlist is empty.
-func (c *CircularLinkedList) Remove(val int) {
+func (c *CircularLinkedList[T]) Remove(val T) error {
 	if c.first == nil && c.last == nil {
-		return
+		return errors.UninitializedError
 	}
-
+	remNode := &CLLNode[T]{data: val}
 	node := c.first
-	var previousNode *Node
-
-	for ; node.data != val && node != c.last; node = node.next {
+	var previousNode *CLLNode[T]
+	// TODO: add a statement to check if val was not found in linkedlist
+	for ; c.cmp(node, remNode) != 0 && node != c.last; node = node.next {
 		previousNode = node
 	}
 
@@ -110,17 +118,18 @@ func (c *CircularLinkedList) Remove(val int) {
 		node = nil
 	}
 	c.size -= 1
+	return nil
 }
 
-func (c *CircularLinkedList) Delete(index int) {
+func (c *CircularLinkedList[T]) Delete(index int) error {
 	if !c.isWithinRange(index) {
-		return
+		return errors.IndexOutOfBound
 	}
 	if c.first == nil && c.last == nil {
-		return
+		return errors.UninitializedError
 	}
 	node := c.first
-	var previousNode *Node
+	var previousNode *CLLNode[T]
 
 	for i := 0; i != index && node != c.last; i, node = i+1, node.next {
 		previousNode = node
@@ -138,22 +147,23 @@ func (c *CircularLinkedList) Delete(index int) {
 		node = nil
 	}
 	c.size -= 1
+	return nil
 }
 
 // Sort a linkedList in ascending order.
-func (c *CircularLinkedList) Sort() {
+func (c *CircularLinkedList[T]) Sort(cmp utils.Comparator[T]) {
 	if c.Size() < 2 {
 		return
 	}
 	elems := c.Values()
-	utils.Sort(elems, utils.IntComparator)
+	utils.Sort(elems, cmp)
 	c.Clear()
 	c.Add(elems...)
 }
 
 // Values returns all the values in a linkedList as a []int.
-func (c *CircularLinkedList) Values() []int {
-	var tArr []int
+func (c *CircularLinkedList[T]) Values() []T {
+	var tArr []T
 	for node := c.first; node != c.last; node = node.next {
 		tArr = append(tArr, node.data)
 	}
@@ -163,29 +173,47 @@ func (c *CircularLinkedList) Values() []int {
 }
 
 // Clear the linkedlist, remove all links.
-func (c *CircularLinkedList) Clear() {
+func (c *CircularLinkedList[T]) Clear() {
 	c.first = nil
 	c.last = nil
 	c.size = 0
 }
 
 // isWithinRange checks if the index is within range of linkedList.
-func (c *CircularLinkedList) isWithinRange(index int) bool {
+func (c *CircularLinkedList[T]) isWithinRange(index int) bool {
 	return index >= 0 && index <= c.size
 }
 
 // Size returns current size of linkedList
-func (c *CircularLinkedList) Size() int {
+func (c *CircularLinkedList[T]) Size() int {
 	return c.size
 }
 
 // String implements stringer interface.
-func (c *CircularLinkedList) String() string {
+func (c *CircularLinkedList[T]) String() string {
 	var strArr []string
 	for node := c.first; node != c.last; node = node.next {
-		strArr = append(strArr, fmt.Sprintf("%d", node.data))
+		strArr = append(strArr, fmt.Sprintf("%v", node.data))
 	}
 	// appending last item
-	strArr = append(strArr, fmt.Sprintf("%d", c.last.data))
+	strArr = append(strArr, fmt.Sprintf("%v", c.last.data))
 	return strings.Join(strArr, ",")
+}
+
+func CompareCLLInt(a, b *CLLNode[int]) int {
+	if a.data > b.data {
+		return 1
+	} else if a.data < b.data {
+		return -1
+	}
+	return 0
+}
+
+func CompareCLLString(a, b *CLLNode[string]) int {
+	if a.data > b.data {
+		return 1
+	} else if a.data < b.data {
+		return -1
+	}
+	return 0
 }

@@ -3,19 +3,22 @@ package stack
 import (
 	"fmt"
 	"strings"
+
+	"github.com/maverick6912/dsa_go/errors"
 )
 
-type Stack struct {
-	list []int
+type Stack[T any] struct {
+	cmp  func(T, T) int
+	list []T
 	size int
 }
 
-func New() *Stack {
-	return &Stack{list: make([]int, 0)}
+func (s *Stack[T]) New(cmp func(T, T) int) *Stack[T] {
+	return &Stack[T]{list: make([]T, 0), cmp: cmp}
 }
 
 // Add elements to top of stack
-func (s *Stack) Add(val ...int) {
+func (s *Stack[T]) Add(val ...T) {
 	for _, v := range val {
 		s.list = append(s.list, v)
 		s.size += 1
@@ -24,7 +27,7 @@ func (s *Stack) Add(val ...int) {
 
 // Push adds given element to top of stack.
 // Does nothing if stack is un-initialized.
-func (s *Stack) Push(val int) {
+func (s *Stack[T]) Push(val T) {
 	if s == nil {
 		return
 	}
@@ -34,39 +37,44 @@ func (s *Stack) Push(val int) {
 
 // Pop returns and deletes the element on top of stack.
 // If stack is empty or un-initialized returns -1
-func (s *Stack) Pop() int {
+func (s *Stack[T]) Pop() (T, error) {
+	var ret T
 	if s == nil {
-		return -1
+		return ret, errors.UninitializedError
 	}
 	if s.Size() == 0 || s.list == nil {
-		return -1
+		return ret, errors.UninitializedError
 	}
-	elem := s.list[len(s.list)-1]
+	ret = s.list[len(s.list)-1]
 	s.list = s.list[:len(s.list)-1]
 	s.size -= 1
-	return elem
+	return ret, nil
 }
 
 // Peek returns the element on top of stack
-func (s *Stack) Peek() int {
-	return s.list[len(s.list)-1]
+func (s *Stack[T]) Peek() (T, error) {
+	if s == nil {
+		var ret T
+		return ret, errors.UninitializedError
+	}
+	return s.list[len(s.list)-1], nil
 }
 
 // Size returns current size of stack
-func (s *Stack) Size() int {
+func (s *Stack[T]) Size() int {
 	return s.size
 }
 
 // String implements stringer interface
-func (s *Stack) String() string {
+func (s *Stack[T]) String() string {
 	tArr := make([]string, len(s.list))
 	for _, v := range s.list {
-		tArr = append(tArr, fmt.Sprintf("%d", v))
+		tArr = append(tArr, fmt.Sprintf("%v", v))
 	}
 	return strings.Join(tArr, ",")
 }
 
 // Values returns all elemnts in the stack
-func (s *Stack) Values() []int {
+func (s *Stack[T]) Values() []T {
 	return s.list
 }
