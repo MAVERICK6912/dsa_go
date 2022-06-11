@@ -8,6 +8,7 @@ import (
 )
 
 func TestQueueEnqueueInt(t *testing.T) {
+	t.Parallel()
 	var q Queue[int]
 	q.New(func(a, b int) int {
 		if a > b {
@@ -35,6 +36,7 @@ func TestQueueEnqueueInt(t *testing.T) {
 }
 
 func TestQueueDequeueInt(t *testing.T) {
+	t.Parallel()
 	vals := []int{7, 8, 9}
 
 	var q Queue[int]
@@ -77,6 +79,7 @@ func TestQueueDequeueInt(t *testing.T) {
 }
 
 func TestQueueEnqueueString(t *testing.T) {
+	t.Parallel()
 	var q Queue[string]
 	q.New(func(a, b string) int {
 		if len(a) > len(b) {
@@ -104,6 +107,7 @@ func TestQueueEnqueueString(t *testing.T) {
 }
 
 func TestQueueDequeueString(t *testing.T) {
+	t.Parallel()
 	vals := []string{"batman", "flash", "black cannary"}
 
 	var q Queue[string]

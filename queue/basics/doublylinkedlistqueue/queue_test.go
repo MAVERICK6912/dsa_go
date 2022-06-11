@@ -9,6 +9,7 @@ import (
 )
 
 func TestDoublyLinkedListQueueEnqueue(t *testing.T) {
+	t.Parallel()
 	var dllQ DllQueue[int]
 	dllQ = *dllQ.New(3, linkedlist.CompareDLLInt)
 
@@ -37,6 +38,7 @@ func TestDoublyLinkedListQueueEnqueue(t *testing.T) {
 }
 
 func TestDoublyLinkedListQueueDequeue(t *testing.T) {
+	t.Parallel()
 	var dllQ DllQueue[int]
 	dllQ = *dllQ.New(3, linkedlist.CompareDLLInt)
 
