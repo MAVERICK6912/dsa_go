@@ -3,42 +3,80 @@ package queue
 import (
 	"testing"
 
+	"github.com/maverick6912/dsa_go/errors"
+	linkedlist "github.com/maverick6912/dsa_go/linkedlist/basics/doubly-linkedlist"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestDoublyLinkedListQueueEnqueue(t *testing.T) {
-	dllQ := New(3)
+	var dllQ DllQueue[int]
+	dllQ = *dllQ.New(3, linkedlist.CompareDLLInt)
 
-	dllQ.Enqueue(59)
-	assert.Equal(t, 59, dllQ.Peek())
+	err := dllQ.Enqueue(59)
+	if err != nil {
+		t.Error("error while enqueuing to queue")
+	}
+	actual, err := dllQ.Peek()
+	if err != nil {
+		t.Error("error while peeking from queue")
+	}
+	assert.Equal(t, 59, actual)
 	assert.Equal(t, 1, dllQ.elements.Size())
 
-	dllQ.Enqueue(69)
+	err = dllQ.Enqueue(69)
+	if err != nil {
+		t.Error("error while enqueuing to queue")
+	}
 	assert.Equal(t, 2, dllQ.elements.Size())
 
-	dllQ.Enqueue(369)
+	err = dllQ.Enqueue(369)
+	if err != nil {
+		t.Error("error while enqueuing to queue")
+	}
 	assert.Equal(t, 3, dllQ.elements.Size())
 }
 
 func TestDoublyLinkedListQueueDequeue(t *testing.T) {
-	dllQ := New(3)
-	dllQ.Enqueue(59)
-	dllQ.Enqueue(69)
-	dllQ.Enqueue(369)
+	var dllQ DllQueue[int]
+	dllQ = *dllQ.New(3, linkedlist.CompareDLLInt)
 
-	res := dllQ.Dequeue()
-	assert.Equal(t, 59, res)
+	err := dllQ.Enqueue(59)
+	if err != nil {
+		t.Error("error while enqueuing to queue")
+	}
+	err = dllQ.Enqueue(69)
+	if err != nil {
+		t.Error("error while enqueuing to queue")
+	}
+	err = dllQ.Enqueue(369)
+	if err != nil {
+		t.Error("error while enqueuing to queue")
+	}
+
+	actual, err := dllQ.Dequeue()
+	if err != nil {
+		t.Error("error while dequeuing from queue")
+	}
+	assert.Equal(t, 59, actual)
 	assert.Equal(t, 2, dllQ.elements.Size())
 
-	res = dllQ.Dequeue()
-	assert.Equal(t, 69, res)
+	actual, err = dllQ.Dequeue()
+	if err != nil {
+		t.Error("error while dequeuing from queue")
+	}
+	assert.Equal(t, 69, actual)
 	assert.Equal(t, 1, dllQ.elements.Size())
 
-	res = dllQ.Dequeue()
-	assert.Equal(t, 369, res)
+	actual, err = dllQ.Dequeue()
+	if err != nil {
+		t.Error("error while dequeuing from queue")
+	}
+	assert.Equal(t, 369, actual)
 	assert.Equal(t, 0, dllQ.elements.Size())
 	// Dequeuing when queue is empty
-	res = dllQ.Dequeue()
-	assert.Equal(t, -1, res)
+	_, err = dllQ.Dequeue()
+	if assert.Error(t, err) {
+		assert.ErrorIs(t, err, errors.UninitializedError)
+	}
 	assert.Equal(t, 0, dllQ.elements.Size())
 }
