@@ -5,8 +5,6 @@ import (
 	linkedlist "github.com/maverick6912/dsa_go/linkedlist/basics/doubly-linkedlist"
 )
 
-// TODO: convert this queue to use generics
-
 type DllQueue[T any] struct {
 	elements  *linkedlist.DoublyLinkedList[T]
 	cacheSize int
