@@ -5,7 +5,15 @@
 - [Topics Covered](#topics-covered)
 
 # dsa_go
-This is a repository with dsa problems solved using GoLang.
+**dsa_go** implements various core *data-structures* which are not available in golang natively.
+
+Checkout implemented data-structures [here](#topics-covered).
+
+Along with implementing these data-structures there are **leetcode problem solutions** using these very data-structures.
+
+Approach for implementing operations on each data-structure is explained like this:
+
+![Approach to implementing an OP on ds](readme_assets/dsOpApproach.png)
 
 Problem statememnt and solution to problems are described in comments above the code, like this:
 
@@ -18,5 +26,6 @@ Problem statememnt and solution to problems are described in comments above the 
 - [LinkedLists](./linkedlist/)
 - [Stack](./stack/)
 - [Queue](./queue/)
+- [Binary Tree](./tree/)
 
 > I'll add more problem solutions in coming days. Cheers!
