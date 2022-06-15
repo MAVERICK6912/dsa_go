@@ -15,21 +15,18 @@ type TreeNode[T any] struct {
 	right *TreeNode[T]
 }
 
+// New initializes binary tree on which it is called upon.
 func (b *BinaryTree[T]) New(cmp func(*TreeNode[T], *TreeNode[T]) int) *BinaryTree[T] {
 	return &BinaryTree[T]{cmp: cmp}
 }
 
+// New initializes TreeNode on which it is called upon.
 func (tn *TreeNode[T]) New() *TreeNode[T] {
 	return &TreeNode[T]{left: nil, right: nil}
 }
 
-/*
-iArr:= {5,9,3,4,7,1,6}
-
--
-
-*/
-
+// AddNodes adds node in a given bst.
+// returns uninitialized error is tree is not initialized.
 func (b *BinaryTree[T]) AddNodes(vals ...T) error {
 	if b == nil {
 		return errors.UninitializedError
@@ -40,6 +37,7 @@ func (b *BinaryTree[T]) AddNodes(vals ...T) error {
 	return nil
 }
 
+// addNodes adds node in a given bst.
 func (b *BinaryTree[T]) addNodes(root *TreeNode[T], val T) *TreeNode[T] {
 	newNode := &TreeNode[T]{data: val}
 	if root == nil {
@@ -56,14 +54,20 @@ func (b *BinaryTree[T]) addNodes(root *TreeNode[T], val T) *TreeNode[T] {
 	return root
 }
 
+// Search searches for given value in a given bst.
+// returns uninitialized error is tree is not initialized and not found error if value is not found.
 func (b *BinaryTree[T]) Search(elem T) (bool, *TreeNode[T], error) {
 	if b == nil {
 		return false, nil, errors.UninitializedError
 	}
-	exist, node := b.searchNode(b.root, &TreeNode[T]{data: elem})
-	return exist, node, nil
+	if exist, node := b.searchNode(b.root, &TreeNode[T]{data: elem}); exist {
+		return exist, node, nil
+	} else {
+		return exist, node, errors.NotFound
+	}
 }
 
+// searchNode searches for given value in a given bst.
 func (b *BinaryTree[T]) searchNode(root, searchNode *TreeNode[T]) (bool, *TreeNode[T]) {
 	if root == nil {
 		return false, nil
@@ -77,6 +81,8 @@ func (b *BinaryTree[T]) searchNode(root, searchNode *TreeNode[T]) (bool, *TreeNo
 	}
 }
 
+// Remove removes node with given value from bst.
+// returns uninitialized error is tree is not initialized.
 func (b *BinaryTree[T]) Remove(elem T) error {
 	if b == nil {
 		return errors.UninitializedError
@@ -85,6 +91,7 @@ func (b *BinaryTree[T]) Remove(elem T) error {
 	return nil
 }
 
+// removeNode removes node with given value from bst.
 func (b *BinaryTree[T]) removeNode(root, remNode *TreeNode[T]) *TreeNode[T] {
 	if root == nil {
 		return root
@@ -119,6 +126,7 @@ func (t *BinaryTree[T]) GetInorder() ([]T, error) {
 	return *getInOrder(t.root, &ret), nil
 }
 
+// getInorder returns inorder traversal(Left, Root, Right) of tree on which it is called.
 func getInOrder[T any](root *TreeNode[T], ret *[]T) *[]T {
 	if root != nil {
 		getInOrder(root.left, ret)
@@ -128,6 +136,7 @@ func getInOrder[T any](root *TreeNode[T], ret *[]T) *[]T {
 	return ret
 }
 
+// TreeNodeIntComparator compares two TreeNode if they're of type int
 func TreeNodeIntComparator(a, b *TreeNode[int]) int {
 	if a.data > b.data {
 		return 1
@@ -137,6 +146,7 @@ func TreeNodeIntComparator(a, b *TreeNode[int]) int {
 	return 0
 }
 
+// TreeNodeStringComparator compares two TreeNode if they're of type string
 func TreeNodeStringComparator(a, b *TreeNode[string]) int {
 	if a.data > b.data {
 		return 1

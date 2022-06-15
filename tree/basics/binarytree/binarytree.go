@@ -16,14 +16,17 @@ type TreeNode[T any] struct {
 	right *TreeNode[T]
 }
 
+// New initializes binary tree on which it is called upon.
 func (b *BinaryTree[T]) New(cmp func(*TreeNode[T], *TreeNode[T]) int) *BinaryTree[T] {
 	return &BinaryTree[T]{cmp: cmp}
 }
 
+// New initializes TreeNode on which it is called upon.
 func (tn *TreeNode[T]) New() *TreeNode[T] {
 	return &TreeNode[T]{}
 }
 
+// AddLevelOrder inserts values to binary tree in level order.
 func (t *BinaryTree[T]) AddLevelOrder(vals ...T) {
 	if t == nil {
 		return
@@ -43,6 +46,8 @@ func (t *BinaryTree[T]) AddLevelOrder(vals ...T) {
 		- for each root node, the left node is always 2*curr_index+1 of array.
 		- for each root node, the right node is always 2*curr_index+2 of array.
 */
+// addLevelOrder return the root node after inserting other nodes(if passed)
+// in level order.
 func (t *BinaryTree[T]) addLevelOrder(vals []T, index int) *TreeNode[T] {
 	node := &TreeNode[T]{left: nil, right: nil}
 	if index < len(vals) {
@@ -79,7 +84,8 @@ Pseudo code:
 			else:
 				q.Enqueue(tmp.right)
 */
-func (t *BinaryTree[T]) InsertNodeLevelOrder(val T, cmp func(*TreeNode[T], *TreeNode[T]) int) error {
+// InsertNodeLevelOrder inserts the given values to the tree in level order.
+func (t *BinaryTree[T]) InsertNodeLevelOrder(val T) error {
 	if t == nil {
 		return errors.UninitializedError
 	}
@@ -88,7 +94,7 @@ func (t *BinaryTree[T]) InsertNodeLevelOrder(val T, cmp func(*TreeNode[T], *Tree
 		return nil
 	}
 	var q *queue.Queue[*TreeNode[T]]
-	q = q.New(cmp)
+	q = q.New(t.cmp)
 
 	q.Enqueue(t.root)
 	for q.Size() != 0 {
@@ -113,6 +119,8 @@ func (t *BinaryTree[T]) InsertNodeLevelOrder(val T, cmp func(*TreeNode[T], *Tree
 	return nil
 }
 
+// GetPreOrder returns the pre order traversal(root,left,right) of a tree.
+// returns uninitialized error if tree is not initialized
 func (t *BinaryTree[T]) GetPreOrder() ([]T, error) {
 	var ret []T
 	if t == nil {
@@ -121,6 +129,7 @@ func (t *BinaryTree[T]) GetPreOrder() ([]T, error) {
 	return *getPreOrder(t.root, &ret), nil
 }
 
+// getPreOrder returns the pre order traversal(root,left,right) of a tree.
 func getPreOrder[T any](root *TreeNode[T], ret *[]T) *[]T {
 	if root != nil {
 		*ret = append(*ret, root.data)
@@ -130,7 +139,7 @@ func getPreOrder[T any](root *TreeNode[T], ret *[]T) *[]T {
 	return ret
 }
 
-// GetInorder returns inorder traversal(Left, Root, Right) of tree on which it is called.
+// GetInorder returns inorder traversal(left, root, right) of tree on which it is called.
 // returns UninitializedError if tree is nil
 func (t *BinaryTree[T]) GetInorder() ([]T, error) {
 	var ret []T
@@ -140,6 +149,7 @@ func (t *BinaryTree[T]) GetInorder() ([]T, error) {
 	return *getInOrder(t.root, &ret), nil
 }
 
+// getInorder returns inorder traversal(left, root, right) of tree on which it is called.
 func getInOrder[T any](root *TreeNode[T], ret *[]T) *[]T {
 	if root != nil {
 		getInOrder(root.left, ret)
@@ -149,6 +159,8 @@ func getInOrder[T any](root *TreeNode[T], ret *[]T) *[]T {
 	return ret
 }
 
+// GetInorder returns post-order traversal(left, right,root) of tree on which it is called.
+// returns UninitializedError if tree is nil
 func (t *BinaryTree[T]) GetPostOrder() ([]T, error) {
 	var ret []T
 	if t == nil {
@@ -157,6 +169,7 @@ func (t *BinaryTree[T]) GetPostOrder() ([]T, error) {
 	return *getPostOrder(t.root, &ret), nil
 }
 
+// getInorder returns post-order traversal(left, right,root) of tree on which it is called.
 func getPostOrder[T any](root *TreeNode[T], ret *[]T) *[]T {
 	if root != nil {
 		getPostOrder(root.left, ret)
@@ -166,6 +179,7 @@ func getPostOrder[T any](root *TreeNode[T], ret *[]T) *[]T {
 	return ret
 }
 
+// GetLevelorder returns level-order traversal(bfs) of tree on which it is called.
 func (t *BinaryTree[T]) GetLevelorder(cmp func(*TreeNode[T], *TreeNode[T]) int) ([]T, error) {
 	var ret []T
 	if t == nil {
@@ -191,6 +205,7 @@ func (t *BinaryTree[T]) GetLevelorder(cmp func(*TreeNode[T], *TreeNode[T]) int) 
 	return ret, nil
 }
 
+// TreeNodeIntComparator compares two TreeNode if they're of type int
 func TreeNodeIntComparator(a, b *TreeNode[int]) int {
 	if a.data > b.data {
 		return 1
@@ -200,6 +215,7 @@ func TreeNodeIntComparator(a, b *TreeNode[int]) int {
 	return 0
 }
 
+// TreeNodeStringComparator compares two TreeNode if they're of type string
 func TreeNodeStringComparator(a, b *TreeNode[string]) int {
 	if a.data > b.data {
 		return 1

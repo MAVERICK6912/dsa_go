@@ -3,6 +3,7 @@ package tree
 import (
 	"testing"
 
+	"github.com/maverick6912/dsa_go/errors"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -59,8 +60,8 @@ func TestSearch(t *testing.T) {
 	// search for node that doesn't exist in bst
 
 	exist, _, err = bst.Search(69)
-	if err != nil {
-		t.Error("error while searching node in bst. error was: ", err.Error())
+	if assert.Error(t, err) {
+		assert.ErrorIs(t, err, errors.NotFound)
 	}
 	assert.Equal(t, false, exist)
 }

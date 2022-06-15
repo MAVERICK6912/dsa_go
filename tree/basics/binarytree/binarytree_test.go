@@ -37,31 +37,31 @@ func TestInsertNodeLevelOrder(t *testing.T) {
 	var bt *BinaryTree[int]
 	bt = bt.New(TreeNodeIntComparator)
 
-	err := bt.InsertNodeLevelOrder(87, TreeNodeIntComparator)
+	err := bt.InsertNodeLevelOrder(87)
 	if err != nil {
 		t.Error("error while inserting to tree")
 	}
 	assert.Equal(t, 87, bt.root.data)
 
-	err = bt.InsertNodeLevelOrder(69, TreeNodeIntComparator)
+	err = bt.InsertNodeLevelOrder(69)
 	if err != nil {
 		t.Error("error while inserting to tree")
 	}
 	assert.Equal(t, 69, bt.root.left.data)
 
-	err = bt.InsertNodeLevelOrder(1, TreeNodeIntComparator)
+	err = bt.InsertNodeLevelOrder(1)
 	if err != nil {
 		t.Error("error while inserting to tree")
 	}
 	assert.Equal(t, 1, bt.root.right.data)
 
-	err = bt.InsertNodeLevelOrder(25, TreeNodeIntComparator)
+	err = bt.InsertNodeLevelOrder(25)
 	if err != nil {
 		t.Error("error while inserting to tree")
 	}
 	assert.Equal(t, 25, bt.root.left.left.data)
 
-	err = bt.InsertNodeLevelOrder(34, TreeNodeIntComparator)
+	err = bt.InsertNodeLevelOrder(34)
 	if err != nil {
 		t.Error("error while inserting to tree")
 	}
@@ -75,7 +75,7 @@ func TestGetLevelorder(t *testing.T) {
 
 	vals := []int{21, 3, 54, 69, 2, 1, 7}
 	for _, v := range vals {
-		bt.InsertNodeLevelOrder(v, TreeNodeIntComparator)
+		bt.InsertNodeLevelOrder(v)
 	}
 
 	/*
@@ -117,7 +117,7 @@ func TestGetInorder(t *testing.T) {
 
 	exp := []int{4, 2, 5, 1, 3}
 	for _, v := range vals {
-		bt.InsertNodeLevelOrder(v, TreeNodeIntComparator)
+		bt.InsertNodeLevelOrder(v)
 	}
 
 	actual, err := bt.GetInorder()
@@ -151,7 +151,7 @@ func TestGetPreOrder(t *testing.T) {
 
 	exp := []int{1, 2, 4, 5, 3}
 	for _, v := range vals {
-		bt.InsertNodeLevelOrder(v, TreeNodeIntComparator)
+		bt.InsertNodeLevelOrder(v)
 	}
 
 	actual, err := bt.GetPreOrder()
@@ -185,7 +185,7 @@ func TestGetPostOrder(t *testing.T) {
 
 	exp := []int{4, 5, 2, 3, 1}
 	for _, v := range vals {
-		bt.InsertNodeLevelOrder(v, TreeNodeIntComparator)
+		bt.InsertNodeLevelOrder(v)
 	}
 
 	actual, err := bt.GetPostOrder()
