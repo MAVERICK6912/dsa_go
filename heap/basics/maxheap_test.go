@@ -9,12 +9,12 @@ import (
 )
 
 func TestInsert(t *testing.T) {
-	var h *Heap[int]
-	h = h.New(utils.IntComparator)
+	var m *MaxHeap[int]
+	m = m.New(utils.IntComparator)
 	vals := []int{25, 3, 67, 4, 5, 13}
 
 	for _, v := range vals {
-		h.Insert(v)
+		m.Insert(v)
 	}
 	/*
 				67
@@ -23,17 +23,17 @@ func TestInsert(t *testing.T) {
 			/ \   /
 		   5   4 3
 	*/
-	assert.Equal(t, 67, h.elems[0])
-	assert.Equal(t, len(vals), h.Length())
+	assert.Equal(t, 67, m.elems[0])
+	assert.Equal(t, len(vals), m.Length())
 }
 
 func TestExtract(t *testing.T) {
-	var h *Heap[int]
-	h = h.New(utils.IntComparator)
+	var m *MaxHeap[int]
+	m = m.New(utils.IntComparator)
 	vals := []int{25, 3, 67, 4, 5, 13}
 
 	for _, v := range vals {
-		h.Insert(v)
+		m.Insert(v)
 	}
 
 	/*
@@ -44,10 +44,10 @@ func TestExtract(t *testing.T) {
 		   5   4 3
 	*/
 
-	actual, err := h.Extract()
+	actual, err := m.Extract()
 	assert.Nil(t, err)
 	assert.Equal(t, 67, actual)
-	assert.Equal(t, len(vals)-1, h.Length())
+	assert.Equal(t, len(vals)-1, m.Length())
 
 	/*
 				25
@@ -57,10 +57,10 @@ func TestExtract(t *testing.T) {
 		   3   4
 	*/
 
-	actual, err = h.Extract()
+	actual, err = m.Extract()
 	assert.Nil(t, err)
 	assert.Equal(t, 25, actual)
-	assert.Equal(t, len(vals)-2, h.Length())
+	assert.Equal(t, len(vals)-2, m.Length())
 	/*
 				13
 			   /  \
@@ -69,41 +69,41 @@ func TestExtract(t *testing.T) {
 		   3
 	*/
 
-	actual, err = h.Extract()
+	actual, err = m.Extract()
 	assert.Nil(t, err)
 	assert.Equal(t, 13, actual)
-	assert.Equal(t, len(vals)-3, h.Length())
+	assert.Equal(t, len(vals)-3, m.Length())
 	/*
 			5
 		   /  \
 		 3     4
 	*/
 
-	actual, err = h.Extract()
+	actual, err = m.Extract()
 	assert.Nil(t, err)
 	assert.Equal(t, 5, actual)
-	assert.Equal(t, len(vals)-4, h.Length())
+	assert.Equal(t, len(vals)-4, m.Length())
 	/*
 			4
 		   / \
 		nil   3
 	*/
 
-	actual, err = h.Extract()
+	actual, err = m.Extract()
 	assert.Nil(t, err)
 	assert.Equal(t, 4, actual)
-	assert.Equal(t, len(vals)-5, h.Length())
+	assert.Equal(t, len(vals)-5, m.Length())
 	/*
 			3
 		   / \
 		nil   nil
 	*/
-	actual, err = h.Extract()
+	actual, err = m.Extract()
 	assert.Nil(t, err)
 	assert.Equal(t, 3, actual)
-	assert.Equal(t, len(vals)-6, h.Length())
+	assert.Equal(t, len(vals)-6, m.Length())
 
-	_, err = h.Extract()
+	_, err = m.Extract()
 	if assert.Error(t, err) {
 		assert.ErrorIs(t, err, errors.NoElements)
 	}

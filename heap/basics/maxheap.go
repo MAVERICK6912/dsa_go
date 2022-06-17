@@ -8,61 +8,63 @@ type Heap[T any] struct {
 	len   int
 }
 
+type MaxHeap[T any] Heap[T]
+
 // New initializes a heap and returns it.
-func (h *Heap[T]) New(cmp func(T, T) int) *Heap[T] {
-	return &Heap[T]{cmp: cmp, elems: make([]T, 0)}
+func (m *MaxHeap[T]) New(cmp func(T, T) int) *MaxHeap[T] {
+	return &MaxHeap[T]{cmp: cmp, elems: make([]T, 0)}
 }
 
 // Insert a value to heap.
 // returns uninitialized error if heap is not initialized.
-func (h *Heap[T]) Insert(val T) {
-	h.elems = append(h.elems, val)
-	h.maxHeapifyUp(len(h.elems) - 1)
-	h.len += 1
+func (m *MaxHeap[T]) Insert(val T) {
+	m.elems = append(m.elems, val)
+	m.maxHeapifyUp(len(m.elems) - 1)
+	m.len += 1
 }
 
 //maxHeapifyUp heapifies from bottom to top.
-func (h *Heap[T]) maxHeapifyUp(index int) {
-	for h.cmp(h.elems[parent(index)], h.elems[index]) < 0 {
-		h.swap(parent(index), index)
+func (m *MaxHeap[T]) maxHeapifyUp(index int) {
+	for m.cmp(m.elems[parent(index)], m.elems[index]) < 0 {
+		m.swap(parent(index), index)
 		index = parent(index)
 	}
 }
 
 // Extract returns and deletes the largest element from heap.
-func (h *Heap[T]) Extract() (T, error) {
+func (m *MaxHeap[T]) Extract() (T, error) {
 	var extracted T
-	if h == nil {
+	if m == nil {
 		return extracted, errors.UninitializedError
 	}
-	if h.Length() == 0 {
+	if m.Length() == 0 {
 		return extracted, errors.NoElements
 	}
-	extracted = h.elems[0]
-	lastIndex := len(h.elems) - 1
-	h.elems[0] = h.elems[lastIndex]
-	h.elems = h.elems[:lastIndex]
-	h.maxHeapifyDown(0)
-	h.len -= 1
+	extracted = m.elems[0]
+	lastIndex := len(m.elems) - 1
+	m.elems[0] = m.elems[lastIndex]
+	m.elems = m.elems[:lastIndex]
+	m.maxHeapifyDown(0)
+	m.len -= 1
 	return extracted, nil
 }
 
 //maxHeapifyDown heapifies from top to bottom.
-func (h *Heap[T]) maxHeapifyDown(index int) {
-	lastIndex := len(h.elems) - 1
+func (m *MaxHeap[T]) maxHeapifyDown(index int) {
+	lastIndex := len(m.elems) - 1
 	l, r := left(index), right(index)
 	childToCompare := 0
 	for l <= lastIndex {
 		if l == lastIndex {
 			childToCompare = l
-		} else if h.cmp(h.elems[l], h.elems[r]) > 0 {
+		} else if m.cmp(m.elems[l], m.elems[r]) > 0 {
 			childToCompare = l
 		} else {
 			childToCompare = r
 		}
 
-		if h.cmp(h.elems[index], h.elems[childToCompare]) < 0 {
-			h.swap(index, childToCompare)
+		if m.cmp(m.elems[index], m.elems[childToCompare]) < 0 {
+			m.swap(index, childToCompare)
 			index = childToCompare
 			l, r = left(index), right(index)
 		} else {
@@ -87,16 +89,16 @@ func right(parentIndex int) int {
 }
 
 // swap value at the passed indices.
-func (h *Heap[T]) swap(index1, index2 int) {
-	h.elems[index1], h.elems[index2] = h.elems[index2], h.elems[index1]
+func (m *MaxHeap[T]) swap(index1, index2 int) {
+	m.elems[index1], m.elems[index2] = m.elems[index2], m.elems[index1]
 }
 
 // Length returns current length of heap.
-func (h *Heap[T]) Length() int {
-	return h.len
+func (m *MaxHeap[T]) Length() int {
+	return m.len
 }
 
 // Values returns the elements in the heap.
-func (h Heap[T]) Values() []T {
-	return h.elems
+func (m Heap[T]) Values() []T {
+	return m.elems
 }
