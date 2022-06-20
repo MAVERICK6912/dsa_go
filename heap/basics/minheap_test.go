@@ -8,8 +8,8 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestInsert(t *testing.T) {
-	var m *MaxHeap[int]
+func TestInsertMinHeap(t *testing.T) {
+	var m *MinHeap[int]
 	m = m.New(utils.IntComparator)
 	vals := []int{25, 3, 67, 4, 5, 13}
 
@@ -17,18 +17,18 @@ func TestInsert(t *testing.T) {
 		m.Insert(v)
 	}
 	/*
-				67
+				3
 			   /  \
-			 25    13
+			 4    13
 			/ \   /
-		   5   4 3
+		   25  5 67
 	*/
-	assert.Equal(t, 67, m.elems[0])
+	assert.Equal(t, 3, m.elems[0])
 	assert.Equal(t, len(vals), m.Length())
 }
 
-func TestExtract(t *testing.T) {
-	var m *MaxHeap[int]
+func TestExtractMinHeap(t *testing.T) {
+	var m *MinHeap[int]
 	m = m.New(utils.IntComparator)
 	vals := []int{25, 3, 67, 4, 5, 13}
 
@@ -36,70 +36,70 @@ func TestExtract(t *testing.T) {
 		m.Insert(v)
 	}
 	/*
-				67
+				3
 			   /  \
-			 25    13
+			 4    13
 			/ \   /
-		   5   4 3
+		   25  5 67
 	*/
 
 	actual, err := m.Extract()
 	assert.Nil(t, err)
-	assert.Equal(t, 67, actual)
+	assert.Equal(t, 3, actual)
 	assert.Equal(t, len(vals)-1, m.Length())
 
 	/*
-				25
+				4
 			   /  \
 			 5    13
-			/ \
-		   3   4
-	*/
-
-	actual, err = m.Extract()
-	assert.Nil(t, err)
-	assert.Equal(t, 25, actual)
-	assert.Equal(t, len(vals)-2, m.Length())
-	/*
-				13
-			   /  \
-			 5     4
-			/
-		   3
-	*/
-
-	actual, err = m.Extract()
-	assert.Nil(t, err)
-	assert.Equal(t, 13, actual)
-	assert.Equal(t, len(vals)-3, m.Length())
-	/*
-			5
-		   /  \
-		 3     4
-	*/
-
-	actual, err = m.Extract()
-	assert.Nil(t, err)
-	assert.Equal(t, 5, actual)
-	assert.Equal(t, len(vals)-4, m.Length())
-	/*
-			4
-		   / \
-		nil   3
+			/    /
+		   25   67
 	*/
 
 	actual, err = m.Extract()
 	assert.Nil(t, err)
 	assert.Equal(t, 4, actual)
+	assert.Equal(t, len(vals)-2, m.Length())
+	/*
+				5
+			   /  \
+			 25    13
+			      /
+		         67
+	*/
+
+	actual, err = m.Extract()
+	assert.Nil(t, err)
+	assert.Equal(t, 5, actual)
+	assert.Equal(t, len(vals)-3, m.Length())
+	/*
+			13
+		   /  \
+		 25   67
+	*/
+
+	actual, err = m.Extract()
+	assert.Nil(t, err)
+	assert.Equal(t, 13, actual)
+	assert.Equal(t, len(vals)-4, m.Length())
+	/*
+			25
+		   /  \
+		 nil   67
+	*/
+
+	actual, err = m.Extract()
+	assert.Nil(t, err)
+	assert.Equal(t, 25, actual)
 	assert.Equal(t, len(vals)-5, m.Length())
 	/*
-			3
-		   / \
-		nil   nil
+			67
+		   /  \
+		nil    nil
 	*/
 	actual, err = m.Extract()
 	assert.Nil(t, err)
-	assert.Equal(t, 3, actual)
+	assert.Equal(t, 67, actual)
 	assert.Equal(t, len(vals)-6, m.Length())
 
 	_, err = m.Extract()
