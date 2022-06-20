@@ -27,5 +27,6 @@ Problem statememnt and solution to problems are described in comments above the 
 - [Stack](./stack/)
 - [Queue](./queue/)
 - [Binary Tree](./tree/)
+- [Binary Heaps](./heap/)
 
-> I'll add more problem solutions in coming days. Cheers!
+> I'll add more data structures and problem solutions in coming days. Cheers!
