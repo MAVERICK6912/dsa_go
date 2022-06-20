@@ -9,4 +9,5 @@ var (
 	MissingPriority    = errors.New("priority was nil or empty")
 	PeekError          = errors.New("error while peeking")
 	DequeueError       = errors.New("error while dequeuing from queue")
+	NoElements         = errors.New("no elements to remove")
 )
