@@ -36,12 +36,13 @@ func (h Hashtable[K, V]) Insert(key K, val V) error {
 	if len(h.elems) == 0 || h.elems == nil {
 		return errors.UninitializedError
 	}
-	hash := h.hash(key, h.size)
-	index := hash % h.size
+	index := h.hash(key, h.size)
 	h.elems[index].insert(key, val)
 	return nil
 }
 
+// insert is a helper method to Hashtable's Insert.
+// It inserts the given key value pair in the bucket it is called upon.
 func (b *bucket[K, V]) insert(key K, val V) {
 	newNode := &bucketNode[K, V]{key: key, value: val}
 	newNode.next = b.head
@@ -67,7 +68,8 @@ func (h Hashtable[K, V]) Search(key K) (V, error) {
 	return ret, errors.NotFound
 }
 
-// Remove from hashtable
+// Remove the given key from hashtable
+// returns NotFound error if key is not found and uninitialized error if hashtable is not initialized.
 func (h *Hashtable[K, V]) Remove(key K) error {
 	if len(h.elems) == 0 || h.elems == nil {
 		return errors.UninitializedError
