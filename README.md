@@ -1,5 +1,6 @@
 [![Go](https://github.com/MAVERICK6912/dsa_go/actions/workflows/go.yml/badge.svg?branch=main)](https://github.com/MAVERICK6912/dsa_go/actions/workflows/go.yml)
 [![CodeQL](https://github.com/MAVERICK6912/dsa_go/actions/workflows/codeql.yml/badge.svg?branch=main&event=push)](https://github.com/MAVERICK6912/dsa_go/actions/workflows/codeql.yml)
+[![Go Report Card](https://goreportcard.com/badge/github.com/maverick6912/dsa_go)](https://goreportcard.com/report/github.com/maverick6912/dsa_go)
 ## TOC
 - [dsa_go](#dsa_go)
 - [Topics Covered](#topics-covered)
@@ -28,5 +29,6 @@ Problem statememnt and solution to problems are described in comments above the 
 - [Queue](./queue/)
 - [Binary Tree](./tree/)
 - [Binary Heaps](./heap/)
+- [Hashing](./hashing/)
 
 > I'll add more data structures and problem solutions in coming days. Cheers!
