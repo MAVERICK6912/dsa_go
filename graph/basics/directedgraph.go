@@ -2,6 +2,7 @@ package graph
 
 import (
 	"github.com/maverick6912/dsa_go/errors"
+	queue "github.com/maverick6912/dsa_go/queue/basics/listqueue"
 )
 
 type DirectedGraph[T any] struct {
@@ -11,6 +12,7 @@ type DirectedGraph[T any] struct {
 
 type DirectedVertex[T any] struct {
 	key      T
+	visited  bool
 	adjacent []*DirectedVertex[T]
 }
 
@@ -87,6 +89,8 @@ func (g DirectedGraph[T]) IsConnected(fromK, toK T) bool {
 	return g.contains(v.adjacent, toK)
 }
 
+// Values returns the keys in a graph.
+// returns UninitializedError if graph is not initialized.
 func (g DirectedGraph[T]) Values() ([]T, error) {
 	ret := make([]T, 0)
 	if g.vertices == nil {
@@ -99,14 +103,14 @@ func (g DirectedGraph[T]) Values() ([]T, error) {
 }
 
 /*
-DirectedGraph g is an adjecency list:
-g: [{v1,adjv1:[v2,v4] },{v2,adjv2: [v1]},{v3,adjv3: [v2]},{v4,adjv4:[v2,v3]}]
+	DirectedGraph g is an adjecency list:
+	g: [{v1,adjv1:[v2,v4] },{v2,adjv2: [v1]},{v3,adjv3: [v2]},{v4,adjv4:[v2,v3]}]
 
-if we want to remove a vertex, then:
- - we need to first remove all associations from the connecting vertices:
-	- check in all vertices adjacency list.
-	- if vertex to remove exist, then remove it from adjacency list of that vertex.
- - remove the vertex from graph
+	if we want to remove a vertex, then:
+	- we need to first remove all associations from the connecting vertices:
+		- check in all vertices adjacency list.
+		- if vertex to remove exist, then remove it from adjacency list of that vertex.
+	- remove the vertex from graph
 */
 // RemoveVertex removes a vertex from di-graph if it exist in the graph.
 // returns uninitialzed error if graph is not initialized
@@ -158,4 +162,102 @@ func (g DirectedGraph[T]) Vertices() ([]*DirectedVertex[T], error) {
 		return nil, errors.UninitializedError
 	}
 	return g.vertices, nil
+}
+
+/*
+Breadth First Search(BFS):
+	- Visit the given node
+	- Visit all its adjacent nodes.
+	- keep visiting adjacent nodes of visiting nodes.
+	pesudo code:
+		- get vertex corresponding to the key.
+		- enqueue the key in a queue.
+		- loop over till queue is empty:
+			 for queue.Size!=0:
+			 	currV = queue.Dequeue
+				if currv.visited
+					continue
+				append(currV.key)
+				currV.visited=true
+				if len(currv.adj)>0:
+					q.Enqueue(allAdjNodes)
+		- return the vertices traversed.
+
+
+*/
+// BFSTraversal returns the vertex key as an array after traversing the grapph in BFS manner.
+// returns uninitialzed error if graph is not initialized
+// and returns NotFound error if vertex doesn't exist in the graph.
+func (g DirectedGraph[T]) BFSTraversal(k T, cmp func(a, b *DirectedVertex[T]) int) ([]T, error) {
+
+	if g.vertices == nil {
+		return nil, errors.UninitializedError
+	}
+	ret := make([]T, 0)
+	var q *queue.Queue[*DirectedVertex[T]]
+	q = q.New(cmp)
+	v := g.getVertex(k)
+	if v == nil {
+		return nil, errors.NotFound
+	}
+	defer g.markVerticesUnvisited()
+	q.Enqueue(v)
+
+	for q.Size() != 0 {
+		currV, err := q.Dequeue()
+		if currV.visited {
+			continue
+		}
+		if err != nil {
+			return nil, errors.DequeueError
+		}
+		ret = append(ret, currV.key)
+		currV.visited = true
+		if len(currV.adjacent) > 0 {
+			for _, av := range currV.adjacent {
+				if !av.visited {
+					q.Enqueue(av)
+				}
+			}
+		}
+	}
+
+	return ret, nil
+}
+
+func (g DirectedGraph[T]) DFSTraversal(k T, cmp func(a, b *DirectedVertex[T]) int) ([]T, error) {
+
+}
+
+func dfsTraversal[T any](cV *DirectedVertex[T], ret *[]T) *[]T {
+	return ret
+}
+
+// markVerticesUnvisited marks the vertices unvisited for consequent traversals.
+func (g DirectedGraph[T]) markVerticesUnvisited() {
+	for _, v := range g.vertices {
+		if v.visited {
+			v.visited = false
+		}
+	}
+}
+
+// DirectedVertexIntComparator compares two DirectedVertex if they're of type int.
+func DirectedVertexIntComparator(a, b *DirectedVertex[int]) int {
+	if a.key > b.key {
+		return 1
+	} else if a.key < b.key {
+		return -1
+	}
+	return 0
+}
+
+// DirectedVertexIntComparator compares two DirectedVertex if they're of type string.
+func DirectedVertexStringComparator(a, b *DirectedVertex[string]) int {
+	if a.key > b.key {
+		return 1
+	} else if a.key < b.key {
+		return -1
+	}
+	return 0
 }
