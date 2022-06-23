@@ -30,5 +30,6 @@ Problem statememnt and solution to problems are described in comments above the 
 - [Binary Tree](./tree/)
 - [Binary Heaps](./heap/)
 - [Hashing](./hashing/)
+- [Graphs](./graph/)
 
 > I'll add more data structures and problem solutions in coming days. Cheers!

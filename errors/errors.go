@@ -10,4 +10,5 @@ var (
 	PeekError          = errors.New("error while peeking")
 	DequeueError       = errors.New("error while dequeuing from queue")
 	NoElements         = errors.New("no elements to remove")
+	KeyAlreadyExist    = errors.New("given key already exists")
 )
