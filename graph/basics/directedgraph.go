@@ -225,11 +225,29 @@ func (g DirectedGraph[T]) BFSTraversal(k T, cmp func(a, b *DirectedVertex[T]) in
 	return ret, nil
 }
 
-func (g DirectedGraph[T]) DFSTraversal(k T, cmp func(a, b *DirectedVertex[T]) int) ([]T, error) {
+func (g DirectedGraph[T]) DFSTraversal(k T) ([]T, error) {
+	if g.vertices == nil {
+		return nil, errors.UninitializedError
+	}
+	v := g.getVertex(k)
+	if v == nil {
+		return nil, errors.NotFound
+	}
+	defer g.markVerticesUnvisited()
 
+	ret := make([]T, 0)
+
+	return *dfsTraversal(v, &ret), nil
 }
 
 func dfsTraversal[T any](cV *DirectedVertex[T], ret *[]T) *[]T {
+	*ret = append(*ret, cV.key)
+	cV.visited = true
+	for _, v := range cV.adjacent {
+		if !v.visited {
+			dfsTraversal(v, ret)
+		}
+	}
 	return ret
 }
 

@@ -180,3 +180,41 @@ func TestBFSTraversal(t *testing.T) {
 		assert.ErrorIs(t, err, errors.NotFound)
 	}
 }
+
+func TestDFSTraversal(t *testing.T) {
+	var g *DirectedGraph[int]
+	g = g.New(utils.IntComparator)
+
+	for _, v := range verticesInt {
+		err := g.AddVertex(v)
+		if err != nil {
+			t.Error("error while adding vertex to graph, error was: ", err.Error())
+		}
+	}
+	for _, e := range edgesInt {
+		err := g.AddEdge(e.from, e.to)
+		if err != nil {
+			t.Error("error while adding vertex to graph, error was: ", err.Error())
+		}
+	}
+
+	expected := []int{69, 98, 1, 5, 7, 36}
+	actual, err := g.DFSTraversal(verticesInt[4])
+	if err != nil {
+		t.Errorf("error while traversing graph for node %d", verticesInt[4])
+	}
+	assert.Equal(t, expected, actual)
+
+	expected = []int{5, 1, 7, 36}
+	actual, err = g.BFSTraversal(verticesInt[1], DirectedVertexIntComparator)
+	if err != nil {
+		t.Errorf("error while traversing graph for node %d", verticesInt[1])
+	}
+	assert.Equal(t, expected, actual)
+
+	// traversing a vertex that doesn't exist in graph
+	_, err = g.BFSTraversal(10258, DirectedVertexIntComparator)
+	if assert.Error(t, err) {
+		assert.ErrorIs(t, err, errors.NotFound)
+	}
+}
