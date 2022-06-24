@@ -16,20 +16,24 @@ Approach for implementing operations on each data-structure is explained like th
 
 ![Approach to implementing an OP on ds](readme_assets/dsOpApproach.png)
 
-Problem statememnt and solution to problems are described in comments above the code, like this:
+Problem statement and solution to problems are described in comments above the code, like this:
 
 
 ![Problem and solution description](readme_assets/prblmAndSolDesc.png)
 
 # Topics Covered
-- [Array/Slice](./array/)
-- [String](./string/)
-- [LinkedLists](./linkedlist/)
-- [Stack](./stack/)
-- [Queue](./queue/)
-- [Binary Tree](./tree/)
-- [Binary Heaps](./heap/)
-- [Hashing](./hashing/)
-- [Graphs](./graph/)
+- DataStructures
+  - [Array/Slice](./array/)
+  - [String](./string/)
+  - [LinkedLists](./linkedlist/)
+  - [Stack](./stack/)
+  - [Queue](./queue/)
+  - [Binary Tree](./tree/)
+  - [Binary Heaps](./heap/)
+  - [Hashing](./hashing/)
+  - [Graphs](./graph/)
+
+- Algorithms:
+  - [Search](https://github.com/MAVERICK6912/dsa_go/tree/main/search/)
 
 > I'll add more data structures and problem solutions in coming days. Cheers!
