@@ -1,24 +1,19 @@
 package search
 
-import "github.com/maverick6912/dsa_go/errors"
-
-// Represents the direction of sort.
-type SortDirection int
-
-const (
-	Ascending SortDirection = iota
-	Descending
+import (
+	"github.com/maverick6912/dsa_go/errors"
+	"github.com/maverick6912/dsa_go/sort"
 )
 
 // BinarySearch searches a sorted(ascending or descending) array for given key using the comparator passed.
 // If key is found it returns the index at which the key was found and error is nil.
 // If key is not found it returns -1 and NotFound error.
 // It also returns -1 and NoElements error if iterable passed has no elements.
-func BinarySearch[T any](i []T, k T, sortDir SortDirection, cmp func(T, T) int) (int, error) {
+func BinarySearch[T any](i []T, k T, sortDir sort.SortDirection, cmp func(T, T) int) (int, error) {
 	if len(i) == 0 {
 		return -1, errors.NoElements
 	}
-	if sortDir == Ascending {
+	if sortDir == sort.Ascending {
 		return binarySearchForAscending(i, k, cmp)
 	} else {
 		return binarySearchForDescending(i, k, cmp)
