@@ -2,6 +2,8 @@ package sort
 
 import "github.com/maverick6912/dsa_go/errors"
 
+// MergeSort sorts the array as per the sortDirection passed.
+// returns NoElements error if passed iterable is empty.
 func MergeSort[T any](i []T, sortDir SortDirection, cmp func(T, T) int) ([]T, error) {
 	if len(i) == 0 {
 		return nil, errors.NoElements
@@ -11,6 +13,7 @@ func MergeSort[T any](i []T, sortDir SortDirection, cmp func(T, T) int) ([]T, er
 	return divideAndMerge(&i, l, r, cmp, sortDir), nil
 }
 
+// divideAndMerge divides the slice recursively and the calls merge on each sub-slice so formed.
 func divideAndMerge[T any](i *[]T, l, r int, cmp func(T, T) int, sortDir SortDirection) []T {
 	if l < r {
 		m := l + (r-l)/2
@@ -20,17 +23,18 @@ func divideAndMerge[T any](i *[]T, l, r int, cmp func(T, T) int, sortDir SortDir
 		divideAndMerge(i, m+1, r, cmp, sortDir)
 		// merge the divided array/slice
 		if sortDir == Ascending {
-			t := mergeSortAscending(*i, l, r, m, cmp)
+			t := mergeAscending(*i, l, r, m, cmp)
 			i = &t
 		} else {
-			t := mergeSortDescending(*i, l, r, m, cmp)
+			t := mergeDescending(*i, l, r, m, cmp)
 			i = &t
 		}
 	}
 	return *i
 }
 
-func mergeSortAscending[T any](it []T, l, r, m int, cmp func(T, T) int) []T {
+// mergeSortAscending sorts the sub slices while merging them to the original slice in ascending order.
+func mergeAscending[T any](it []T, l, r, m int, cmp func(T, T) int) []T {
 	// size of temp slices
 	subSliceOneSize, subSliceTwoSize := m-l+1, r-m
 	// initializing temp slices
@@ -78,7 +82,8 @@ func mergeSortAscending[T any](it []T, l, r, m int, cmp func(T, T) int) []T {
 	return it
 }
 
-func mergeSortDescending[T any](it []T, l, r, m int, cmp func(T, T) int) []T {
+// mergeSortDescending sorts the sub slices while merging them to the original slice in descending order.
+func mergeDescending[T any](it []T, l, r, m int, cmp func(T, T) int) []T {
 	// size of temp slices
 	subSliceOneSize, subSliceTwoSize := m-l+1, r-m
 	// initializing temp slices
