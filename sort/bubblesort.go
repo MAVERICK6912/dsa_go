@@ -2,6 +2,8 @@ package sort
 
 import "github.com/maverick6912/dsa_go/errors"
 
+// BubbleSort sorts the array as per the sortDirection passed.
+// returns NoElements error if passed iterable is empty.
 func BubbleSort[T any](i []T, sortDir SortDirection, cmp func(T, T) int) ([]T, error) {
 	if len(i) == 0 {
 		return nil, errors.NoElements
@@ -13,6 +15,7 @@ func BubbleSort[T any](i []T, sortDir SortDirection, cmp func(T, T) int) ([]T, e
 	}
 }
 
+// bubbleSortAscending sorts the array in ascending order.
 func bubbleSortAscending[T any](i []T, cmp func(T, T) int) []T {
 	for m := range i {
 		swapped := false
@@ -31,6 +34,7 @@ func bubbleSortAscending[T any](i []T, cmp func(T, T) int) []T {
 	return i
 }
 
+// bubbleSortDescending sorts the array in descending order.
 func bubbleSortDescending[T any](i []T, cmp func(T, T) int) []T {
 	for m := range i {
 		swapped := false
