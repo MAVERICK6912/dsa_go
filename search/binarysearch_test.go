@@ -4,6 +4,7 @@ import (
 	"testing"
 
 	"github.com/maverick6912/dsa_go/errors"
+	"github.com/maverick6912/dsa_go/sort"
 	"github.com/maverick6912/dsa_go/utils"
 	"github.com/stretchr/testify/assert"
 )
@@ -22,7 +23,7 @@ var (
 
 func TestBinarySearch(t *testing.T) {
 	for i, v := range testDataInt.searchElems {
-		actual, err := BinarySearch(testDataInt.elems, v, Ascending, utils.IntComparator)
+		actual, err := BinarySearch(testDataInt.elems, v, sort.Ascending, utils.IntComparator)
 		if i == len(testDataInt.searchElems)-1 {
 			if assert.Error(t, err) {
 				assert.ErrorIs(t, err, errors.NotFound)
@@ -36,7 +37,7 @@ func TestBinarySearch(t *testing.T) {
 	}
 
 	for i, v := range testDataIntDesc.searchElems {
-		actual, err := BinarySearch(testDataIntDesc.elems, v, Descending, utils.IntComparator)
+		actual, err := BinarySearch(testDataIntDesc.elems, v, sort.Descending, utils.IntComparator)
 		if i == len(testDataIntDesc.searchElems)-1 {
 			if assert.Error(t, err) {
 				assert.ErrorIs(t, err, errors.NotFound)
