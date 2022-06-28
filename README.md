@@ -39,5 +39,6 @@ Problem statement and solution to problems are described in comments above the c
     - Selection Sort
     - Bubble Sort
     - Merge Sort
+    - Quick Sort
 
 > I'll add more data structures and problem solutions in coming days. Cheers!
