@@ -12,4 +12,5 @@ var (
 	NoElements         = errors.New("no elements to perform operation")
 	KeyAlreadyExist    = errors.New("given key already exists")
 	ErrImproperSort    = errors.New("the passed iterable is not preperly sorted")
+	ErrHeapExtract     = errors.New("error while extracting value from heap")
 )

@@ -35,10 +35,13 @@ Problem statement and solution to problems are described in comments above the c
 
 - Algorithms:
   - [Search](./search/)
+    - Linear Search
+    - Binary Search
   - [Sort](./sort/)
     - Selection Sort
     - Bubble Sort
     - Merge Sort
     - Quick Sort
+    - Heap Sort
 
 > I'll add more data structures and problem solutions in coming days. Cheers!
