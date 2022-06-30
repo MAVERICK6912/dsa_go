@@ -34,5 +34,13 @@ Problem statement and solution to problems are described in comments above the c
   - [Graphs](https://github.com/MAVERICK6912/dsa_go/tree/main/graph/)
 - Algorithms:
   - [Search](https://github.com/MAVERICK6912/dsa_go/tree/main/search/)
+    - Linear Search
+    - Binary Search
+  - [Sort](https://github.com/MAVERICK6912/dsa_go/tree/main/sort/)
+    - Selection Sort
+    - Bubble Sort
+    - Merge Sort
+    - Quick Sort
+    - Heap Sort
 
 > I'll add more data structures, algorithms and problem solutions in coming days. Cheers!

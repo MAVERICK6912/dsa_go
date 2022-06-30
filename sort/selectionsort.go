@@ -4,14 +4,6 @@ import (
 	"github.com/maverick6912/dsa_go/errors"
 )
 
-// Represents the direction of sort.
-type SortDirection int
-
-const (
-	Ascending SortDirection = iota
-	Descending
-)
-
 // SelectionSort sorts the array as per the sortDirection passed.
 // returns NoElements error if passed iterable is empty.
 func SelectionSort[T any](i []T, sortDir SortDirection, cmp func(T, T) int) ([]T, error) {
