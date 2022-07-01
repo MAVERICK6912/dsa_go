@@ -10,28 +10,21 @@
 
 Checkout implemented data-structures [here](#topics-covered).
 
-Along with implementing these data-structures there are **leetcode problem solutions** using these very data-structures.
+Along with implementing these data-structures there are **leetcode problem solutions** using these very data-structures in this [repo](https://github.com/MAVERICK6912/leetcode-go).
 
 Approach for implementing operations on each data-structure is explained like this:
 
 ![Approach to implementing an OP on ds](readme_assets/dsOpApproach.png)
 
-Problem statement and solution to problems are described in comments above the code, like this:
-
-
-![Problem and solution description](readme_assets/prblmAndSolDesc.png)
-
 # Topics Covered
 - DataStructures
-  - [Array/Slice](./array/)
-  - [String](./string/)
   - [LinkedLists](./linkedlist/)
   - [Stack](./stack/)
   - [Queue](./queue/)
   - [Binary Tree](./tree/)
   - [Binary Heaps](./heap/)
   - [Hashing](./hashing/)
-  - [Graphs](./graph/)
+  - [Graph](./graph/)
 
 - Algorithms:
   - [Search](./search/)
@@ -44,4 +37,10 @@ Problem statement and solution to problems are described in comments above the c
     - Quick Sort
     - Heap Sort
 
-> I'll add more data structures and problem solutions in coming days. Cheers!
+> I'll add more data structures and algorithms in coming days. Cheers!
+> 
+> Upcoming DataStructure:
+> - Trie
+> 
+> Algorithms:
+> - Dynamic Programing intuition and example.
