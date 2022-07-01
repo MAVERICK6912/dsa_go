@@ -10,37 +10,37 @@
 
 Checkout implemented data-structures [here](#topics-covered).
 
-Along with implementing these data-structures there are **leetcode problem solutions** using these very data-structures.
+Along with implementing these data-structures there are **leetcode problem solutions** using these very data-structures in this [repo](https://github.com/MAVERICK6912/leetcode-go).
 
 Approach for implementing operations on each data-structure is explained like this:
 
-![Approach to implementing an OP on ds](../readme_assets/dsOpApproach.png)
-
-Problem statement and solution to problems are described in comments above the code, like this:
-
-
-![Problem and solution description](../readme_assets/prblmAndSolDesc.png)
+![Approach to implementing an OP on ds](readme_assets/dsOpApproach.png)
 
 # Topics Covered
-- Data Structures
-  - [Array/Slice](https://github.com/MAVERICK6912/dsa_go/tree/main/array/)
-  - [String](https://github.com/MAVERICK6912/dsa_go/tree/main/string/)
-  - [LinkedLists](https://github.com/MAVERICK6912/dsa_go/tree/main/linkedlist/)
-  - [Stack](https://github.com/MAVERICK6912/dsa_go/tree/main/stack/)
-  - [Queue](https://github.com/MAVERICK6912/dsa_go/tree/main/queue/)
-  - [Binary Tree](https://github.com/MAVERICK6912/dsa_go/tree/main/tree/)
-  - [Binary Heaps](https://github.com/MAVERICK6912/dsa_go/tree/main/heap/)
-  - [Hashing](https://github.com/MAVERICK6912/dsa_go/tree/main/hashing/)
-  - [Graphs](https://github.com/MAVERICK6912/dsa_go/tree/main/graph/)
+- DataStructures
+  - [LinkedLists](./linkedlist/)
+  - [Stack](./stack/)
+  - [Queue](./queue/)
+  - [Binary Tree](./tree/)
+  - [Binary Heaps](./heap/)
+  - [Hashing](./hashing/)
+  - [Graph](./graph/)
+
 - Algorithms:
-  - [Search](https://github.com/MAVERICK6912/dsa_go/tree/main/search/)
+  - [Search](./search/)
     - Linear Search
     - Binary Search
-  - [Sort](https://github.com/MAVERICK6912/dsa_go/tree/main/sort/)
+  - [Sort](./sort/)
     - Selection Sort
     - Bubble Sort
     - Merge Sort
     - Quick Sort
     - Heap Sort
 
-> I'll add more data structures, algorithms and problem solutions in coming days. Cheers!
+> I'll add more data structures and algorithms in coming days. Cheers!
+> 
+> Upcoming DataStructure:
+> - Trie
+> 
+> Algorithms:
+> - Dynamic Programing intuition and example.
