@@ -51,7 +51,7 @@ func TestCircularLinkedListInsert(t *testing.T) {
 	if err != nil {
 		t.Error("error while inserting to queue")
 	}
-	actual, err = cirLinkedList.Get(0)
+	actual, _ = cirLinkedList.Get(0)
 	assert.Equal(t, 634, actual)
 	assert.Equal(t, 10, cirLinkedList.Size())
 	assert.Equal(t, cirLinkedList.last.next, cirLinkedList.first)

@@ -146,7 +146,7 @@ func TestLinkedListDelete(t *testing.T) {
 	assert.Equal(t, 0, linkedlist.Size())
 }
 
-func TestCircularLinkedListSort(t *testing.T) {
+func TestSinglyLinkedListSort(t *testing.T) {
 	t.Parallel()
 
 	values := []int{25, 46, 32, 15, 14, 69, 47, 536}
