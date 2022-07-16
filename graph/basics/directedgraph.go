@@ -2,7 +2,7 @@ package graph
 
 import (
 	"github.com/maverick6912/dsa_go/errors"
-	queue "github.com/maverick6912/dsa_go/queue/basics/listqueue"
+	queue "github.com/maverick6912/dsa_go/queue/basics"
 )
 
 type DirectedGraph[T any] struct {

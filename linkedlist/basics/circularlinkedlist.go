@@ -20,6 +20,7 @@ type CircularLinkedList[T any] struct {
 	size  int
 }
 
+// New initializes the CircularLinkedist on which it is called upon and returns it.
 func (c *CircularLinkedList[T]) New(cmp func(*CLLNode[T], *CLLNode[T]) int) *CircularLinkedList[T] {
 	return &CircularLinkedList[T]{cmp: cmp}
 }
@@ -121,6 +122,8 @@ func (c *CircularLinkedList[T]) Remove(val T) error {
 	return nil
 }
 
+// Delete a node at given index.
+// Returns IndexOutOfBound error if the passed index is out of bounds of CLL.
 func (c *CircularLinkedList[T]) Delete(index int) error {
 	if !c.isWithinRange(index) {
 		return errors.IndexOutOfBound

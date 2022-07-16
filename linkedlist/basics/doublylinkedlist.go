@@ -21,6 +21,7 @@ type DoublyLinkedList[T any] struct {
 	size  int
 }
 
+// New initializes the DoublyLinkedist on which it is called upon and returns it.
 func (d *DoublyLinkedList[T]) New(cmp func(*DLLNode[T], *DLLNode[T]) int) *DoublyLinkedList[T] {
 	return &DoublyLinkedList[T]{cmp: cmp}
 }
@@ -203,6 +204,7 @@ func CompareDLLInt(a, b *DLLNode[int]) int {
 	}
 	return 0
 }
+
 func CompareDLLString(a, b *DLLNode[string]) int {
 	if a.data > b.data {
 		return 1

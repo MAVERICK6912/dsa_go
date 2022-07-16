@@ -2,7 +2,7 @@ package tree
 
 import (
 	"github.com/maverick6912/dsa_go/errors"
-	queue "github.com/maverick6912/dsa_go/queue/basics/listqueue"
+	queue "github.com/maverick6912/dsa_go/queue/basics"
 )
 
 type BinaryTree[T any] struct {

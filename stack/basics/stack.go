@@ -13,6 +13,7 @@ type Stack[T any] struct {
 	size int
 }
 
+// New initializes the stack on which it is called upon and returns it.
 func (s *Stack[T]) New(cmp func(T, T) int) *Stack[T] {
 	return &Stack[T]{list: make([]T, 0), cmp: cmp}
 }

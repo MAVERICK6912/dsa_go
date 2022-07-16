@@ -4,30 +4,16 @@ import (
 	"github.com/maverick6912/dsa_go/errors"
 )
 
-type BinaryTree[T any] struct {
-	cmp  func(*TreeNode[T], *TreeNode[T]) int
-	root *TreeNode[T]
-}
-
-type TreeNode[T any] struct {
-	data  T
-	left  *TreeNode[T]
-	right *TreeNode[T]
-}
+type BinarySearchTree[T any] BinaryTree[T]
 
 // New initializes binary tree on which it is called upon.
-func (b *BinaryTree[T]) New(cmp func(*TreeNode[T], *TreeNode[T]) int) *BinaryTree[T] {
-	return &BinaryTree[T]{cmp: cmp}
-}
-
-// New initializes TreeNode on which it is called upon.
-func (tn *TreeNode[T]) New() *TreeNode[T] {
-	return &TreeNode[T]{left: nil, right: nil}
+func (b *BinarySearchTree[T]) New(cmp func(*TreeNode[T], *TreeNode[T]) int) *BinarySearchTree[T] {
+	return &BinarySearchTree[T]{cmp: cmp}
 }
 
 // AddNodes adds node in a given bst.
 // returns uninitialized error is tree is not initialized.
-func (b *BinaryTree[T]) AddNodes(vals ...T) error {
+func (b *BinarySearchTree[T]) AddNodes(vals ...T) error {
 	if b == nil {
 		return errors.UninitializedError
 	}
@@ -38,7 +24,7 @@ func (b *BinaryTree[T]) AddNodes(vals ...T) error {
 }
 
 // addNodes adds node in a given bst.
-func (b *BinaryTree[T]) addNodes(root *TreeNode[T], val T) *TreeNode[T] {
+func (b *BinarySearchTree[T]) addNodes(root *TreeNode[T], val T) *TreeNode[T] {
 	newNode := &TreeNode[T]{data: val}
 	if root == nil {
 		return newNode
@@ -56,7 +42,7 @@ func (b *BinaryTree[T]) addNodes(root *TreeNode[T], val T) *TreeNode[T] {
 
 // Search searches for given value in a given bst.
 // returns uninitialized error is tree is not initialized and not found error if value is not found.
-func (b *BinaryTree[T]) Search(elem T) (bool, *TreeNode[T], error) {
+func (b *BinarySearchTree[T]) Search(elem T) (bool, *TreeNode[T], error) {
 	if b == nil {
 		return false, nil, errors.UninitializedError
 	}
@@ -68,7 +54,7 @@ func (b *BinaryTree[T]) Search(elem T) (bool, *TreeNode[T], error) {
 }
 
 // searchNode searches for given value in a given bst.
-func (b *BinaryTree[T]) searchNode(root, searchNode *TreeNode[T]) (bool, *TreeNode[T]) {
+func (b *BinarySearchTree[T]) searchNode(root, searchNode *TreeNode[T]) (bool, *TreeNode[T]) {
 	if root == nil {
 		return false, nil
 	}
@@ -83,7 +69,7 @@ func (b *BinaryTree[T]) searchNode(root, searchNode *TreeNode[T]) (bool, *TreeNo
 
 // Remove removes node with given value from bst.
 // returns uninitialized error is tree is not initialized.
-func (b *BinaryTree[T]) Remove(elem T) error {
+func (b *BinarySearchTree[T]) Remove(elem T) error {
 	if b == nil {
 		return errors.UninitializedError
 	}
@@ -92,7 +78,7 @@ func (b *BinaryTree[T]) Remove(elem T) error {
 }
 
 // removeNode removes node with given value from bst.
-func (b *BinaryTree[T]) removeNode(root, remNode *TreeNode[T]) *TreeNode[T] {
+func (b *BinarySearchTree[T]) removeNode(root, remNode *TreeNode[T]) *TreeNode[T] {
 	if root == nil {
 		return root
 	}
@@ -118,40 +104,10 @@ func (b *BinaryTree[T]) removeNode(root, remNode *TreeNode[T]) *TreeNode[T] {
 
 // GetInorder returns inorder traversal(Left, Root, Right) of tree on which it is called.
 // returns UninitializedError if tree is nil
-func (t *BinaryTree[T]) GetInorder() ([]T, error) {
+func (b *BinarySearchTree[T]) GetInorder() ([]T, error) {
 	var ret []T
-	if t == nil {
+	if b == nil {
 		return ret, errors.UninitializedError
 	}
-	return *getInOrder(t.root, &ret), nil
-}
-
-// getInorder returns inorder traversal(Left, Root, Right) of tree on which it is called.
-func getInOrder[T any](root *TreeNode[T], ret *[]T) *[]T {
-	if root != nil {
-		getInOrder(root.left, ret)
-		*ret = append(*ret, root.data)
-		getInOrder(root.right, ret)
-	}
-	return ret
-}
-
-// TreeNodeIntComparator compares two TreeNode if they're of type int
-func TreeNodeIntComparator(a, b *TreeNode[int]) int {
-	if a.data > b.data {
-		return 1
-	} else if a.data < b.data {
-		return -1
-	}
-	return 0
-}
-
-// TreeNodeStringComparator compares two TreeNode if they're of type string
-func TreeNodeStringComparator(a, b *TreeNode[string]) int {
-	if a.data > b.data {
-		return 1
-	} else if a.data < b.data {
-		return -1
-	}
-	return 0
+	return *getInOrder(b.root, &ret), nil
 }

@@ -2,7 +2,7 @@ package queue
 
 import (
 	"github.com/maverick6912/dsa_go/errors"
-	linkedlist "github.com/maverick6912/dsa_go/linkedlist/basics/doubly-linkedlist"
+	linkedlist "github.com/maverick6912/dsa_go/linkedlist/basics"
 )
 
 type DllQueue[T any] struct {

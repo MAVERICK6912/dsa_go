@@ -20,6 +20,7 @@ type SinglyLinkedList[T any] struct {
 	size  int
 }
 
+// New initializes the SinglyLinkedist on which it is called upon and returns it.
 func (s *SinglyLinkedList[T]) New(cmp func(*SLLNode[T], *SLLNode[T]) int) *SinglyLinkedList[T] {
 	return &SinglyLinkedList[T]{cmp: cmp}
 }
@@ -79,7 +80,6 @@ func (s *SinglyLinkedList[T]) Get(index int) (T, error) {
 	nN.next=previous.next
 	previous.next=nN
 */
-
 // Insert a node with given value at given index of linkedList.
 // Does nothing if index is out of bounds of linkedList.
 func (s *SinglyLinkedList[T]) Insert(index int, value T) error {
@@ -125,7 +125,6 @@ func (s *SinglyLinkedList[T]) Insert(index int, value T) error {
 
 		currentNode=nil
 */
-
 // Remove a node with given value `val`
 // Does nothing if val doesn't exist in linkedlist or if linkedlist is empty
 func (s *SinglyLinkedList[T]) Remove(val T) {
@@ -175,7 +174,6 @@ func (s *SinglyLinkedList[T]) Remove(val T) {
 
 		currentNode=nil
 */
-
 // Delete a node at given index.
 // Does nothing if index is not within range of linkedlist or if linkedlist is empty
 func (s *SinglyLinkedList[T]) Delete(index int) error {
@@ -254,6 +252,7 @@ func CompareSLLInt(a, b *SLLNode[int]) int {
 	}
 	return 0
 }
+
 func CompareSLLString(a, b *SLLNode[string]) int {
 	if a.data > b.data {
 		return 1

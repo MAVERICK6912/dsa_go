@@ -10,7 +10,7 @@ import (
 func TestAddNodes(t *testing.T) {
 	vals := []int{5, 9, 3, 4, 7, 1, 6}
 
-	var bst *BinaryTree[int]
+	var bst *BinarySearchTree[int]
 	bst = bst.New(TreeNodeIntComparator)
 
 	err := bst.AddNodes(vals...)
@@ -40,7 +40,7 @@ func TestAddNodes(t *testing.T) {
 func TestSearch(t *testing.T) {
 	vals := []int{5, 9, 3, 4, 7, 1, 6}
 
-	var bst *BinaryTree[int]
+	var bst *BinarySearchTree[int]
 	bst = bst.New(TreeNodeIntComparator)
 
 	err := bst.AddNodes(vals...)
@@ -69,7 +69,7 @@ func TestSearch(t *testing.T) {
 func TestRemove(t *testing.T) {
 	vals := []int{5, 9, 3, 4, 7, 1, 6}
 
-	var bst *BinaryTree[int]
+	var bst *BinarySearchTree[int]
 	bst = bst.New(TreeNodeIntComparator)
 
 	err := bst.AddNodes(vals...)
