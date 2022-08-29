@@ -17,7 +17,7 @@ func (t *Trie) New() *Trie {
 	return t
 }
 
-// Insert inserts given string/strings into the trie on which it is called upon.
+// Insert given string/strings into the trie on which it is called upon.
 // time complexity for Insert is O(n*k), where n is the number of words and k is length of a word.
 func (t *Trie) Insert(vals ...string) {
 	for _, v := range vals {

@@ -25,6 +25,7 @@ Approach for implementing operations on each data-structure is explained like th
   - [Binary Heaps](./heap/)
   - [Hashing](./hashing/)
   - [Graph](./graph/)
+  - [Trie](./trie/)
 
 - Algorithms:
   - [Search](./search/)
@@ -37,10 +38,3 @@ Approach for implementing operations on each data-structure is explained like th
     - Quick Sort
     - Heap Sort
 
-> I'll add more data structures and algorithms in coming days. Cheers!
-> 
-> Upcoming DataStructure:
-> - Trie
-> 
-> Algorithms:
-> - Dynamic Programing intuition and example.

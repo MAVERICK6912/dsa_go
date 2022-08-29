@@ -14,33 +14,24 @@ Along with implementing these data-structures there are **leetcode problem solut
 
 Approach for implementing operations on each data-structure is explained like this:
 
-![Approach to implementing an OP on ds](readme_assets/dsOpApproach.png)
-
 # Topics Covered
 - DataStructures
-  - [LinkedLists](./linkedlist/)
-  - [Stack](./stack/)
-  - [Queue](./queue/)
-  - [Binary Tree](./tree/)
-  - [Binary Heaps](./heap/)
-  - [Hashing](./hashing/)
-  - [Graph](./graph/)
+  - [LinkedLists](https://github.com/MAVERICK6912/dsa_go/tree/main/linkedlist/basics)
+  - [Stack](https://github.com/MAVERICK6912/dsa_go/tree/main/stack/basics)
+  - [Queue](https://github.com/MAVERICK6912/dsa_go/tree/main/queue)
+  - [Binary Tree](https://github.com/MAVERICK6912/dsa_go/tree/main/tree/basics)
+  - [Binary Heaps](https://github.com/MAVERICK6912/dsa_go/tree/main/heap/basics)
+  - [Hashing](https://github.com/MAVERICK6912/dsa_go/tree/main/hashing/basics)
+  - [Graph](https://github.com/MAVERICK6912/dsa_go/tree/main/graph/basics)
+  - [Trie](https://github.com/MAVERICK6912/dsa_go/tree/main/trie)
 
 - Algorithms:
-  - [Search](./search/)
+  - [Search](https://github.com/MAVERICK6912/dsa_go/tree/main/search)
     - Linear Search
     - Binary Search
-  - [Sort](./sort/)
+  - [Sort](https://github.com/MAVERICK6912/dsa_go/tree/main/sort)
     - Selection Sort
     - Bubble Sort
     - Merge Sort
     - Quick Sort
     - Heap Sort
-
-> I'll add more data structures and algorithms in coming days. Cheers!
-> 
-> Upcoming DataStructure:
-> - Trie
-> 
-> Algorithms:
-> - Dynamic Programing intuition and example.
